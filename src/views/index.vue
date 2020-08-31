@@ -5,10 +5,10 @@
             <a-layout id="layout" :class="layoutClass">
                 <a-layout-header :class="{'collapsed':collapsed}">
                     <div class="logo" @click="toHome">
-                        <img class="logo-img" src="../assets/image/common/logo.png" alt="">
+                        <!-- <img class="logo-img" src="../assets/image/common/logo.png" alt=""> -->
                         <span class="title" v-if="system">
-                            {{system.app_name}}
-                             <span class="version">{{system.app_version}}</span>
+                            智能电网二次规划项目管理
+                             <!-- <span class="version">{{system.app_version}}</span> -->
                         </span>
                     </div>
                     <a-menu
@@ -365,5 +365,8 @@
     }
 </script>
 <style lang="less">
+    .title {
+        font-size:14px;
+    }
 
 </style>

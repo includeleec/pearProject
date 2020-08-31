@@ -5,12 +5,12 @@
                 <div class="header">
                     <a-badge>
                         <a href="/">
-                            <img src="../../assets/image/common/logo.png" class="logo" alt="logo">
-                            <span class="title">Pear Project</span>
+                            <img src="@/assets/image/common/logo-csg-h.png" class="logo" alt="logo">
+                            <span class="title">广西电网智能电网二次规划项目管理</span>
                         </a>
                     </a-badge>
                 </div>
-                <div class="desc">{{desc}}</div>
+                <!-- <div class="desc">{{desc}}</div> -->
             </div>
 
             <router-view/>
@@ -57,7 +57,7 @@
         .container {
             width: 100%;
             min-height: 100%;
-            background: #f5f5f5 url(~@/assets/image/common/background.svg) no-repeat 50%;
+            background: #fff url(~@/assets/image/common/background.svg) no-repeat 50%;
             background-size: 100%;
             padding: 110px 0 144px;
             position: relative;
@@ -70,7 +70,7 @@
                 text-align: center;
 
                 .header {
-                    height: 44px;
+                    // height: 44px;
                     line-height: 44px;
 
                     .badge {
@@ -84,10 +84,12 @@
                     }
 
                     .logo {
-                        height: 44px;
-                        vertical-align: top;
-                        margin-right: 12px;
-                        border-style: none;
+                        // height: 44px;
+                        // vertical-align: top;
+                        // margin-right: 12px;
+                        display: block;
+                        margin: 0 auto;
+                        // border-style: none;
                         /*transform: rotate(-25deg);*/
                         /*-ms-transform: rotate(-25deg); !* IE 9 *!*/
                         /*-moz-transform: rotate(-25deg); !* Firefox *!*/
@@ -96,7 +98,7 @@
                     }
 
                     .title {
-                        font-size: 33px;
+                        font-size: 28px;
                         color: rgba(0, 0, 0, .85);
                         font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
                         font-weight: 600;

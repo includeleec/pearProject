@@ -99,13 +99,13 @@
             </a-form-item>
 
             <div class="user-login-other">
-                <span>其他登录方式</span>
+                <!-- <span>其他登录方式</span>
                 <a-tooltip :mouseEnterDelay="0.3"
                            title="钉钉登录">
                     <a @click="dingTalkOauth">
                         <a-icon class="item-icon" type="dingding"/>
                     </a>
-                </a-tooltip>
+                </a-tooltip> -->
                 <!--<a>
                     <a-icon class="item-icon" type="alipay-circle"></a-icon>
                 </a>

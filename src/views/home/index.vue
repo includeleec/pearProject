@@ -1,10 +1,10 @@
 <template>
     <div class="home-index">
         <div class="page-header">
-            <p class="day-text muted">『 {{ yiyan.hitokoto }}』 —— 《{{ yiyan.from }}》 <a class="muted" @click="getYiYan">
+            <!-- <p class="day-text muted">『 {{ yiyan.hitokoto }}』 —— 《{{ yiyan.from }}》 <a class="muted" @click="getYiYan">
                 <a-icon type="reload"/>
             </a>
-            </p>
+            </p> -->
             <div class="header-content" v-if="userInfo">
                 <div class="left-content">
                     <div class="avatar">
@@ -232,7 +232,7 @@
 <script>
     import {mapState} from 'vuex'
     import moment from "moment";
-    import {getYiYan} from "../../api/other";
+    // import {getYiYan} from "../../api/other";
     import {formatTaskTime, relativelyTime, showHelloTime} from "../../assets/js/dateTime";
     import {selfList as getProjectList} from "../../api/project";
     import {list as accountList} from "../../api/user";
@@ -246,7 +246,7 @@
         data() {
             return {
                 loading: false,
-                yiyan: {},
+                // yiyan: {},
                 projectList: [],
                 projectTotal: 0,
                 activities: [],
@@ -281,7 +281,7 @@
             }
         },
         created() {
-            this.getYiYan();
+            // this.getYiYan();
             this.init();
         },
         watch:{
@@ -331,12 +331,12 @@
                     this.accounts.total = res.data.total;
                 })
             },
-            getYiYan() {
-                let app = this;
-                getYiYan(function (data) {
-                    app.yiyan = data
-                }, 'd')
-            },
+            // getYiYan() {
+            //     let app = this;
+            //     getYiYan(function (data) {
+            //         app.yiyan = data
+            //     }, 'd')
+            // },
             getTasks() {
                 this.task.loading = true;
                 selfList({page: this.task.page, pageSize: this.task.pageSize, taskType: this.task.taskType, type: this.task.done}).then(res => {
