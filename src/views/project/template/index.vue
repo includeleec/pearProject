@@ -291,7 +291,12 @@
             color: rgba(0, 0, 0, 0.45) !important;
         }
 
-        .ant-list-item-content {
+        .ant-list-item {
+            .ant-list-item-meta {
+                .ant-list-item-meta-content {
+                    min-width: 120px;
+                }
+            }
         }
     }
 

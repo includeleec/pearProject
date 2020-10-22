@@ -39,17 +39,22 @@
   padding: 0 10px 10px 10px;
   white-space: nowrap;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   height: 100%;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+
+  // 将 task list 改为 从上到下 显示
+  display: flex;
+  flex-direction: column;
 }
 
 .scrum-stage {
   position: relative;
   height: 100%;
-  width: 295px;
+  
+  // width: 295px;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -80,18 +85,10 @@
 }
 
 .scrum-stage .scrum-stage-header, .scrum-stage .sort-header-placeholder {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 14px 18px;
   font-size: 15px;
   font-weight: bold;
@@ -159,6 +156,7 @@
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  border-bottom: 1px solid #d9d9d9;
 }
 
 .scrum-stage .scrum-stage-content {
@@ -181,6 +179,9 @@
   min-height: 5px;
   padding: 0 5px;
   position: relative;
+
+  // 每个 stage task 改为 从左到右 显示
+  display: flex;
 }
 
 .scrum-stage .task.task-card {
@@ -697,6 +698,7 @@
 }
 
 .project-space-task .card {
+  width: 400px;
   border: 0 none;
   background-color: #FFFFFF;
   border-radius: 2px;
