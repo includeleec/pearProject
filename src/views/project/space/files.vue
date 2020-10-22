@@ -138,7 +138,7 @@
                       <a
                         class="text-default"
                         target="_blank"
-                        :href="item | showPreviewUrl"
+                        :href="item.file_url"
                         v-show="!item.editing"
                         >{{ item.fullName }}</a
                       >
