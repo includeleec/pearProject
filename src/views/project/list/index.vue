@@ -69,6 +69,13 @@
               <router-link :to="'/project/space/task/' + item.code">{{
                 item.name
               }}</router-link>
+
+              <!-- 项目状态 -->
+              <a-tag :color="statusColor(item.status)" class="m-l">{{
+                item.statusText
+              }}</a-tag>
+
+              <!-- 隐私状态 -->
               <a-tag color="green" class="m-l" v-show="!item.private"
                 >公开</a-tag
               >
@@ -436,6 +443,17 @@ export default {
     },
     selectChange() {
       this.init();
+    },
+
+    statusColor(status) {
+      switch (status) {
+        case 1:
+          return "green";
+        case 2:
+          return "#ed3f14";
+        default:
+          return "green";
+      }
     },
   },
 };
