@@ -85,10 +85,10 @@
                 <span>创建人</span>
                 <span>{{ item.owner_name }}</span>
               </div>
-              <div class="info-item schedule">
+              <!-- <div class="info-item schedule">
                 <span>进度</span>
                 <a-progress :strokeWidth="5" :percent="item.schedule" />
-              </div>
+              </div> -->
             </div>
           </div>
           <template v-if="selectBy === 'my' || selectBy === 'collect'">

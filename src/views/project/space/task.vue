@@ -129,6 +129,45 @@
               <!-- <span class="task-count" v-if="stage.tasks.length > 0">
                 · {{ stage.tasks.length }}</span
               > -->
+
+              <!-- 阶段状态 -->
+              <a-tag :color="statusColor(stage.status)">{{
+                stage.statusText
+              }}</a-tag>
+
+              <!-- <a-dropdown :trigger="['click']">
+                <span>
+                  <a-tag :color="statusColor(stage.status)">{{
+                    stage.statusText
+                  }}</a-tag>
+                </span>
+                <a-menu
+                  class="field-right-menu"
+                  slot="overlay"
+                  :selectable="false"
+                >
+                  <a-menu-item :key="1">
+                    <div class="menu-item-content">
+                      <a-tag :color="statusColor(1)">正常</a-tag>
+                      <a-icon
+                        type="check"
+                        class="check muted"
+                        v-show="stage.status == 1"
+                      ></a-icon>
+                    </div>
+                  </a-menu-item>
+                  <a-menu-item :key="2">
+                    <div class="menu-item-content">
+                      <a-tag :color="statusColor(2)">滞后</a-tag>
+                      <a-icon
+                        type="check"
+                        class="check muted"
+                        v-show="stage.status == 2"
+                      ></a-icon>
+                    </div>
+                  </a-menu-item>
+                </a-menu>
+              </a-dropdown> -->
             </div>
             <div v-if="stage.plan_date">
               计划时间:{{ showDate(stage.plan_date) }}
@@ -686,7 +725,7 @@
               查看回收站
             </a>
           </li>
-          <li class="menu-item">
+          <!-- <li class="menu-item">
             <a :href="downLoadUrl" target="_blank">
               <a-icon type="copy" />
               下载导入任务模板
@@ -729,7 +768,7 @@
               <a-icon type="block" />
               保存为项目模板 *
             </a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </a-drawer>
@@ -1587,6 +1626,17 @@ export default {
         return statusInfo.color;
       }
       return "";
+    },
+
+    statusColor(status) {
+      switch (status) {
+        case 1:
+          return "green";
+        case 2:
+          return "#ed3f14";
+        default:
+          return "green";
+      }
     },
   },
 };
