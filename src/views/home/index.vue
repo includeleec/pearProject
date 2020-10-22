@@ -84,6 +84,11 @@
                           style="color: #ffaf38; margin-right: 6px"
                           v-show="item.collected"
                         />{{ item.name }}
+
+                        <!-- 项目状态 -->
+                        <a-tag :color="statusColor(item.status)" class="m-l">{{
+                          item.statusText
+                        }}</a-tag>
                       </router-link>
                     </div>
                     <div slot="description" class="card-description">
@@ -525,6 +530,16 @@ export default {
         str = "label-normal";
       }
       return str;
+    },
+    statusColor(status) {
+      switch (status) {
+        case 1:
+          return "green";
+        case 2:
+          return "#ed3f14";
+        default:
+          return "green";
+      }
     },
   },
 };
