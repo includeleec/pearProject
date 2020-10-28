@@ -9,10 +9,6 @@
       <a-tooltip :mouseEnterDelay="0.3" :title="currentProject.name">
         <a class="project-select" style="color: #333">
           <span>{{ currentProject.name }}</span>
-          <!-- 项目状态 -->
-          <a-tag :color="statusColor(currentProject.status)" class="m-l">{{
-            currentProject.statusText
-          }}</a-tag>
 
           <span class="m-l-xs"><a-icon type="down" /></span>
         </a>

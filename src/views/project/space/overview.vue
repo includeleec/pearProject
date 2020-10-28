@@ -78,7 +78,7 @@
       </section>
     </div>
     <wrapper-content :showHeader="false">
-      <div class="overview-item m-b">
+      <!-- <div class="overview-item m-b">
         <div class="content-item">
           <h3 class="m-sm m-b text-center">任务燃尽图</h3>
           <a-spin :spinning="burnoutMap.loading">
@@ -93,7 +93,7 @@
             ></ve-line>
           </a-spin>
         </div>
-      </div>
+      </div> -->
       <div class="overview-item">
         <div class="content-left">
           <div class="content-item log-list">

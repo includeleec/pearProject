@@ -35,9 +35,21 @@
                 />
               </a-tooltip>
             </span>
-            <span class="label label-normal" v-if="project.private === 0"
-              ><a-icon type="global" /> 公开</span
+
+            <!-- 项目状态 -->
+            <a-tag :color="statusColor(project.status)" class="m-l">{{
+              project.statusText
+            }}</a-tag>
+
+            <!-- 项目负责人 -->
+            <span class="label label-normal" v-if="project.belong_member">
+              项目负责人: {{ project.belong_member.name }}</span
             >
+
+            <!-- 是否为公开项目 -->
+            <!-- <span class="label label-normal" v-if="project.private === 0"
+              ><a-icon type="global" /> 公开</span
+            > -->
           </a-breadcrumb-item>
         </a-breadcrumb>
       </div>
@@ -170,12 +182,17 @@
               </a-dropdown> -->
             </div>
             <div v-if="stage.plan_date">
-              计划时间:{{ showDate(stage.plan_date) }}
+              计划时间:
+              <span class="label label-normal">
+                {{ showDate(stage.plan_date) }}</span
+              >
             </div>
 
             <div v-if="stage.execute_date">
               实际完成时间:
-              {{ showDate(stage.execute_date) }}
+              <span class="label label-normal">
+                {{ showDate(stage.execute_date) }}</span
+              >
             </div>
 
             <div class="stage-menu-toggler popover">
@@ -616,6 +633,24 @@
             v-decorator="[
               'name',
               { rules: [{ required: true, message: '请输入列表标题' }] },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item>
+          <a-date-picker
+            placeholder="计划时间"
+            v-decorator="[
+              'plan_date',
+              { rules: [{ type: 'date', message: '请输入计划时间' }] },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item>
+          <a-date-picker
+            placeholder="实际完成时间"
+            v-decorator="[
+              'execute_date',
+              { rules: [{ type: 'date', message: '请输入实际完成时间' }] },
             ]"
           />
         </a-form-item>
@@ -1322,6 +1357,8 @@ export default {
           this.$nextTick(() => {
             this.stageModal.form.setFieldsValue({
               name: this.taskStages[stageIndex].name,
+              plan_date: this.taskStages[stageIndex].plan_date,
+              execute_date: this.taskStages[stageIndex].execute_date,
             });
             this.$refs.inputStageTitle.focus();
           });
@@ -1407,8 +1444,19 @@ export default {
         this.$message.warning("请输入列表名称", 2);
         return false;
       }
+
+      // console.log("editStage", {
+      //   name: stage.name,
+      //   plan_date: stage.plan_date.format("YYYY-MM-DD hh:mm:ss"),
+      //   execute_date: stage.execute_date.format("YYYY-MM-DD hh:mm:ss"),
+      //   stageCode: this.stageModal.stageCode,
+      // });
+
+      // return;
       editStage({
         name: stage.name,
+        plan_date: stage.plan_date.format("YYYY-MM-DD hh:mm:ss"),
+        execute_date: stage.execute_date.format("YYYY-MM-DD hh:mm:ss"),
         stageCode: this.stageModal.stageCode,
       }).then((res) => {
         const result = checkResponse(res);
@@ -1416,6 +1464,9 @@ export default {
           return false;
         }
         this.taskStages[this.stageModal.stageIndex].name = stage.name;
+        this.taskStages[this.stageModal.stageIndex].plan_date = stage.plan_date;
+        this.taskStages[this.stageModal.stageIndex].execute_date =
+          stage.execute_date;
         this.stageModal.modalStatus = false;
       });
     },

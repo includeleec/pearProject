@@ -76,8 +76,8 @@
               }}</a-tag>
 
               <!-- 隐私状态 -->
-              <a-tag color="green" class="m-l" v-show="!item.private"
-                >公开</a-tag
+              <span class="label label-normal" v-if="item.private === 0"
+                ><a-icon type="global" /> 公开</span
               >
             </div>
             <a-avatar slot="avatar" icon="user" :src="item.cover" />
