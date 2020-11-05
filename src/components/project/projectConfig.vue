@@ -11,7 +11,7 @@
         概览
       </span>
       <div class="config-content">
-        <div class="content-item">
+        <!-- <div class="content-item">
           <div class="infos">
             <p class="item-title">项目封面</p>
             <div class="cover-item">
@@ -33,7 +33,7 @@
               </a-upload>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="content-item">
           <div class="infos">
             <p class="item-title">项目名称</p>
@@ -48,6 +48,7 @@
                                 v-model="project.schedule"></a-input-number>
                     </div> -->
         </div>
+
         <div class="content-item">
           <div class="infos">
             <p class="item-title">项目简介</p>
@@ -100,7 +101,7 @@
         </div>
       </div>
     </a-tab-pane>
-    <a-tab-pane key="2" forceRender>
+    <!-- <a-tab-pane key="2" forceRender>
       <span slot="tab">
         <a-icon type="eye" />
         项目偏好
@@ -129,7 +130,7 @@
             </a-radio-group>
           </div>
         </div>
-        <!-- <div class="content-item">
+        <div class="content-item">
           <div class="infos">
             <p class="item-title">自动更新项目进度</p>
             <div class="item-tips muted">
@@ -140,9 +141,9 @@
             v-model="project.auto_update_schedule"
             @change="saveProject"
           />
-        </div> -->
+        </div>
       </div>
-    </a-tab-pane>
+    </a-tab-pane> -->
     <a-tab-pane key="3">
       <span slot="tab">
         <a-icon type="check-square" />
@@ -984,6 +985,16 @@ export default {
         this.$message.error("图片不能超过2MB!");
       }
       return isLt2M;
+    },
+    priColor(pri) {
+      switch (pri) {
+        case 1:
+          return "green";
+        case 2:
+          return "#ed3f14";
+        default:
+          return "green";
+      }
     },
   },
 };

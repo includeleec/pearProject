@@ -37,9 +37,47 @@
             </span>
 
             <!-- 项目状态 -->
-            <a-tag :color="statusColor(project.status)" class="m-l">{{
+            <!-- <a-tag :color="statusColor(project.status)" class="m-l">{{
               project.statusText
-            }}</a-tag>
+            }}</a-tag> -->
+
+            <span class="field">
+              <a-dropdown :trigger="['click']">
+                <span>
+                  <a-tag :color="statusColor(project.status)"
+                    >项目状态:{{ project.statusText }}</a-tag
+                  >
+                </span>
+
+                <a-menu
+                  class="field-right-menu"
+                  slot="overlay"
+                  :selectable="false"
+                  @click="saveProject"
+                >
+                  <a-menu-item key="1">
+                    <div class="menu-item-content">
+                      <a-tag :color="statusColor(1)">正常</a-tag>
+                      <a-icon
+                        type="check"
+                        class="check muted"
+                        v-show="project.status == 1"
+                      ></a-icon>
+                    </div>
+                  </a-menu-item>
+                  <a-menu-item key="2">
+                    <div class="menu-item-content">
+                      <a-tag :color="statusColor(2)">滞后</a-tag>
+                      <a-icon
+                        type="check"
+                        class="check muted"
+                        v-show="project.status == 2"
+                      ></a-icon>
+                    </div>
+                  </a-menu-item>
+                </a-menu>
+              </a-dropdown>
+            </span>
 
             <!-- 项目负责人 -->
             <span class="label label-normal" v-if="project.belong_member">
@@ -630,12 +668,21 @@
           <a-input
             ref="inputStageTitle"
             placeholder="列表标题"
+            disabled="disabled"
             v-decorator="[
               'name',
               { rules: [{ required: true, message: '请输入列表标题' }] },
             ]"
           />
         </a-form-item>
+
+        <a-form-item label="阶段状态" has-feedback>
+          <a-select v-decorator="['status']" placeholder="请选择状态">
+            <a-select-option :value="1"> 正常 </a-select-option>
+            <a-select-option :value="2"> 滞后 </a-select-option>
+          </a-select>
+        </a-form-item>
+
         <a-form-item>
           <a-date-picker
             placeholder="计划时间"
@@ -919,7 +966,7 @@ import {
   sort,
   tasks as getTasks,
 } from "../../../api/taskStages";
-import { read as getProject } from "../../../api/project";
+import { read as getProject, doData } from "../../../api/project";
 import {
   inviteMember,
   list as getProjectMembers,
@@ -1359,6 +1406,7 @@ export default {
               name: this.taskStages[stageIndex].name,
               plan_date: this.taskStages[stageIndex].plan_date,
               execute_date: this.taskStages[stageIndex].execute_date,
+              status: this.taskStages[stageIndex].status,
             });
             this.$refs.inputStageTitle.focus();
           });
@@ -1445,19 +1493,27 @@ export default {
         return false;
       }
 
-      // console.log("editStage", {
-      //   name: stage.name,
-      //   plan_date: stage.plan_date.format("YYYY-MM-DD hh:mm:ss"),
-      //   execute_date: stage.execute_date.format("YYYY-MM-DD hh:mm:ss"),
-      //   stageCode: this.stageModal.stageCode,
-      // });
+      let plan_date = stage.plan_date
+        ? moment(stage.plan_date).format("YYYY-MM-DD hh:mm:ss")
+        : "";
 
+      let execute_date = stage.execute_date
+        ? moment(stage.execute_date).format("YYYY-MM-DD hh:mm:ss")
+        : "";
+
+      console.log("editStage", {
+        status: stage.status,
+        plan_date,
+        execute_date,
+      });
       // return;
+
       editStage({
         name: stage.name,
-        plan_date: stage.plan_date.format("YYYY-MM-DD hh:mm:ss"),
-        execute_date: stage.execute_date.format("YYYY-MM-DD hh:mm:ss"),
+        plan_date,
+        execute_date,
         stageCode: this.stageModal.stageCode,
+        status: stage.status,
       }).then((res) => {
         const result = checkResponse(res);
         if (!result) {
@@ -1467,6 +1523,16 @@ export default {
         this.taskStages[this.stageModal.stageIndex].plan_date = stage.plan_date;
         this.taskStages[this.stageModal.stageIndex].execute_date =
           stage.execute_date;
+
+        this.taskStages[this.stageModal.stageIndex].status = stage.status;
+        if (stage.status === 1) {
+          this.taskStages[this.stageModal.stageIndex].statusText = "正常";
+        }
+
+        if (stage.status === 2) {
+          this.taskStages[this.stageModal.stageIndex].statusText = "滞后";
+        }
+
         this.stageModal.modalStatus = false;
       });
     },
@@ -1680,6 +1746,7 @@ export default {
     },
 
     statusColor(status) {
+      status = Number(status);
       switch (status) {
         case 1:
           return "green";
@@ -1688,6 +1755,33 @@ export default {
         default:
           return "green";
       }
+    },
+
+    saveProject({ key }) {
+      const project = this.project;
+
+      doData({
+        projectCode: project.code,
+        status: key,
+      }).then((res) => {
+        if (checkResponse(res)) {
+          this.project.status = key;
+          if (key === "1") {
+            this.project.statusText = "正常";
+          } else if (key === "2") {
+            this.project.statusText = "滞后";
+          }
+
+          // notice(
+          //   {
+          //     title: "保存成功",
+          //   },
+          //   "notice",
+          //   "success"
+          // );
+        }
+        // this.$emit("update", this.project);
+      });
     },
   },
 };
