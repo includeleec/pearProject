@@ -14,12 +14,12 @@
         <a-input
           size="large"
           type="text"
-          placeholder="帐户名或邮箱地址"
+          placeholder="帐户名"
           v-decorator="[
             'account',
             {
               rules: [
-                { required: true, message: '请输入帐户名或邮箱地址' },
+                { required: true, message: '请输入帐户名' },
                 { validator: this.handleUsernameOrEmail },
               ],
               validateTrigger: 'blur',
@@ -116,7 +116,7 @@ import { checkResponse, createRoute, timeFix } from "@/assets/js/utils";
 import { getStore } from "@/assets/js/storage";
 import { checkInstall } from "../../api/common/common";
 import { _checkLogin } from "../../api/user";
-import { dingTalkLoginByCode, dingTalkOauth } from "../../api/oauth";
+// import { dingTalkLoginByCode, dingTalkOauth } from "../../api/oauth";
 import { notice } from "../../assets/js/notice";
 
 export default {
@@ -171,7 +171,7 @@ export default {
         info().then((res) => {
           if (checkResponse(res)) {
             this.$store.dispatch("setSystem", res.data);
-            this.dingTalkLogin();
+            // this.dingTalkLogin();
           }
         });
       });
@@ -323,31 +323,31 @@ export default {
         this.oauthLoading = false;
       }
     },
-    dingTalkOauth() {
-      let url = dingTalkOauth() + "?redirect=" + this.$route.query.redirect;
-      let redirect = this.$route.query.redirect;
-      if (redirect) {
-        url += "?redirect=" + redirect;
-      }
-      location.href = url;
-    },
-    dingTalkLogin() {
-      let app = this;
-      dd.ready(function () {
-        // dd.ready参数为回调函数，在环境准备就绪时触发，jsapi的调用需要保证在该回调函数触发后调用，否则无效。
-        dd.runtime.permission.requestAuthCode({
-          corpId: "ding42ccb1a1923b200f35c2f4657eb6378f",
-          onSuccess: function (result) {
-            app.oauthLoading = true;
-            dingTalkLoginByCode({ code: result.code }).then((res) => {
-              if (checkResponse(res)) {
-                app.dealDataBeforeLogin(res);
-              }
-            });
-          },
-        });
-      });
-    },
+    // dingTalkOauth() {
+    //   let url = dingTalkOauth() + "?redirect=" + this.$route.query.redirect;
+    //   let redirect = this.$route.query.redirect;
+    //   if (redirect) {
+    //     url += "?redirect=" + redirect;
+    //   }
+    //   location.href = url;
+    // },
+    // dingTalkLogin() {
+    //   let app = this;
+    //   dd.ready(function () {
+    //     // dd.ready参数为回调函数，在环境准备就绪时触发，jsapi的调用需要保证在该回调函数触发后调用，否则无效。
+    //     dd.runtime.permission.requestAuthCode({
+    //       corpId: "ding42ccb1a1923b200f35c2f4657eb6378f",
+    //       onSuccess: function (result) {
+    //         app.oauthLoading = true;
+    //         dingTalkLoginByCode({ code: result.code }).then((res) => {
+    //           if (checkResponse(res)) {
+    //             app.dealDataBeforeLogin(res);
+    //           }
+    //         });
+    //       },
+    //     });
+    //   });
+    // },
     checkLogin() {
       _checkLogin().then((res) => {
         this.dealDataBeforeLogin(res);

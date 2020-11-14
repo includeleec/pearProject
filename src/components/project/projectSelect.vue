@@ -8,7 +8,7 @@
     >
       <a-tooltip :mouseEnterDelay="0.3" :title="currentProject.name">
         <a class="project-select" style="color: #333">
-          <span>{{ currentProject.name }}</span>
+          <span>{{ currentProject.name | ellipsis }}</span>
 
           <span class="m-l-xs"><a-icon type="down" /></span>
         </a>
@@ -41,8 +41,8 @@
                     <a-icon type="check" v-show="showCheck(item.code)"></a-icon>
                   </span>
                   <a-list-item-meta>
-                    <span slot="title">{{ item.name }}</span>
-                    <a-avatar slot="avatar" icon="user" :src="item.cover" />
+                    <span slot="title">{{ item.name | ellipsis }}</span>
+                    <!-- <a-avatar slot="avatar" icon="user" :src="item.cover" /> -->
                   </a-list-item-meta>
                 </a-list-item>
               </a-list>

@@ -3,14 +3,14 @@
     <wrapper-content :showHeader="false">
       <a-tabs :animated="false" v-model="viewType">
         <a-tab-pane tab="公共模板" key="1"></a-tab-pane>
-        <a-tab-pane tab="自定义模板" key="0"></a-tab-pane>
-        <a-button
+        <!-- <a-tab-pane tab="自定义模板" key="0"></a-tab-pane> -->
+        <!-- <a-button
           type="primary"
           slot="tabBarExtraContent"
           icon="plus"
           @click="doAction(null, 'new')"
           >制作项目模板
-        </a-button>
+        </a-button> -->
       </a-tabs>
       <a-list
         class="default-list"
@@ -61,7 +61,7 @@
           </span>
           <a-list-item-meta :description="item.description">
             <span slot="title">{{ item.name }}</span>
-            <a-avatar slot="avatar" icon="user" :src="item.cover" />
+            <!-- <a-avatar slot="avatar" icon="user" :src="item.cover" /> -->
           </a-list-item-meta>
           <div class="other-info muted">
             <div class="info-item task" v-if="item.task_stages.length">

@@ -34,12 +34,14 @@
                                 <a-icon type="team"/>
                             </a-badge>
                         </div> -->
-            <div
+
+            <!-- 选择: xxx 的个人项目 -->
+            <!-- <div
               class="action action-organization"
               v-if="organizationList.length > 1"
             >
               <header-select></header-select>
-            </div>
+            </div> -->
             <div class="action">
               <header-notice></header-notice>
             </div>

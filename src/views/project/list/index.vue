@@ -32,7 +32,8 @@
                 <a-button type="primary" icon="plus" @click="doAction(null,'new')">创建新项目</a-button>
             </div>-->
       <a-tabs v-model="selectBy" @change="selectChange" :animated="false">
-        <a-tab-pane key="my" tab="全部项目"></a-tab-pane>
+        <a-tab-pane key="all" tab="全部项目"></a-tab-pane>
+        <a-tab-pane key="my" tab="我创建的"></a-tab-pane>
         <a-tab-pane key="collect" tab="我的收藏"></a-tab-pane>
         <a-tab-pane key="archive" tab="已归档"></a-tab-pane>
         <a-tab-pane key="deleted" tab="回收站"></a-tab-pane>
@@ -70,24 +71,43 @@
                 item.name
               }}</router-link>
 
-              <!-- 项目状态 -->
-              <a-tag :color="statusColor(item.status)" class="m-l">{{
-                item.statusText
-              }}</a-tag>
-
               <!-- 隐私状态 -->
-              <span class="label label-normal" v-if="item.private === 0"
+              <!-- <span class="label label-normal" v-if="item.private === 0"
                 ><a-icon type="global" /> 公开</span
-              >
+              > -->
             </div>
-            <a-avatar slot="avatar" icon="user" :src="item.cover" />
+            <!-- <a-avatar slot="avatar" icon="user" :src="item.cover" /> -->
           </a-list-item-meta>
           <div class="ant-list-item-content">
             <div class="other-info muted">
-              <div class="info-item">
+              <!-- <div class="info-item">
                 <span>创建日期</span>
                 <span>{{ moment(item.create_time).format("YYYY-MM-DD") }}</span>
+              </div> -->
+
+              <div class="info-item">
+                <span>当前阶段</span>
+                <span v-if="item.current_task_stage"
+                  >{{ item.current_task_stage.name }}
+                  <!-- 当前阶段的状态 -->
+                  <a-tag :color="statusColor(item.status)">{{
+                    item.current_task_stage.status_text
+                  }}</a-tag>
+                </span>
               </div>
+
+              <div class="info-item">
+                <span>负责人</span>
+                <span>{{ item.belongMember && item.belongMember.name }}</span>
+              </div>
+
+              <div class="info-item">
+                <span>负责部门</span>
+                <span>{{
+                  item.belongDepartment && item.belongDepartment.name
+                }}</span>
+              </div>
+
               <div class="info-item">
                 <span>创建人</span>
                 <span>{{ item.owner_name }}</span>
@@ -98,7 +118,8 @@
               </div> -->
             </div>
           </div>
-          <template v-if="selectBy === 'my' || selectBy === 'collect'">
+          <!-- <template v-if="selectBy === 'my' || selectBy === 'collect'"> -->
+          <template>
             <span slot="actions" @click="inviteProjectMember(item)">
               <a-tooltip title="添加成员">
                 <a-icon type="user-add" />
@@ -180,7 +201,7 @@
         </a-form-item>
         <a-form-item>
           <a-select placeholder="项目模板" v-decorator="['templateCode']">
-            <a-select-option :key="0"> 空白项目 </a-select-option>
+            <!-- <a-select-option :key="0"> 空白项目 </a-select-option> -->
             <a-select-option
               :key="template.code"
               v-for="template in templateList"
@@ -250,7 +271,7 @@ export default {
   mixins: [pagination],
   data() {
     return {
-      selectBy: this.$route.params.type || "my",
+      selectBy: this.$route.params.type || "all",
       dataSource: [],
       loading: true,
       showLoadingMore: false,
@@ -488,7 +509,8 @@ export default {
         .info-item {
           display: flex;
           flex-direction: column;
-          padding-left: 48px;
+          padding-left: 24px;
+          align-items: center;
         }
 
         .schedule {

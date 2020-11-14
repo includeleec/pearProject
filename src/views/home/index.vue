@@ -33,12 +33,12 @@
                             <span>{{task.total}}</span>
                         </div>
                     </div>-->
-          <div class="content-item">
+          <!-- <div class="content-item">
             <div class="item-title muted">团队人数</div>
             <div class="item-text">
               <span>{{ accounts.total }}</span>
             </div>
-          </div>
+          </div> -->
           <div class="content-item">
             <div class="item-title muted">项目总数</div>
             <div class="item-text">
@@ -60,7 +60,7 @@
             title="进行中的项目"
             :body-style="{ padding: 0 }"
           >
-            <router-link to="/project/list/my" slot="extra"
+            <router-link to="/project/list/all" slot="extra"
               >全部项目</router-link
             >
             <div>
@@ -76,7 +76,7 @@
                 >
                   <a-card-meta>
                     <div slot="title" class="card-title">
-                      <a-avatar size="small" :src="item.cover" />
+                      <!-- <a-avatar size="small" :src="item.cover" /> -->
                       <router-link :to="'/project/space/task/' + item.code">
                         <a-icon
                           type="star"
@@ -302,7 +302,7 @@
                                 <radar :data="radarData" />
                             </div>
                         </a-card>-->
-          <a-card
+          <!-- <a-card
             :loading="loading"
             :title="'团队  · ' + accounts.total"
             :bordered="false"
@@ -339,7 +339,7 @@
               :total="accounts.total"
               @change="onLoadMoreAccounts"
             />
-          </a-card>
+          </a-card> -->
         </a-col>
       </a-row>
     </div>
@@ -613,7 +613,7 @@ export default {
 
         a {
           color: rgba(0, 0, 0, 0.85);
-          margin-left: 12px;
+          // margin-left: 12px;
           line-height: 24px;
           height: 24px;
           display: inline-block;

@@ -2,7 +2,7 @@
   <div class="members-index">
     <div class="layout-item left">
       <div class="left-content">
-        <div class="search-content">
+        <!-- <div class="search-content">
           <a-input
             size="large"
             v-model="keyword"
@@ -18,10 +18,10 @@
               @click="emitEmpty"
             />
           </a-input>
-        </div>
+        </div> -->
         <div class="content-item muted">成员</div>
         <div class="menus">
-          <a-menu mode="inline" v-model="selectedKeys" @click="getMembers">
+          <a-menu mode="inline" v-model="selectedKeys" @click="getAllMembers">
             <a-menu-item :key="index.toString()" v-for="(item, index) in menus">
               <a-icon :type="item.icon" />
               <span>{{ item.title }}</span>
@@ -29,7 +29,7 @@
           </a-menu>
         </div>
         <div class="content-item muted">部门</div>
-        <div class="actions content-item">
+        <!-- <div class="actions content-item">
           <a-dropdown
             :trigger="['click']"
             v-model="showCreateDepartment"
@@ -50,7 +50,9 @@
             <a-icon type="bars" />
             部门排序*</a
           >
-        </div>
+        </div> -->
+
+        <!-- 部门列表 -->
         <div class="content-item department">
           <a-spin :spinning="departmentLoading">
             <a-tree
@@ -70,20 +72,25 @@
     <div class="layout-item right">
       <div class="header">
         <div class="title">
-          <span>{{ currentMenu.title }} · {{ pagination.total }}</span>
+          <span>{{ currentMenu.title }} · {{ members.length }}</span>
         </div>
-        <div class="actions">
+
+        <div v-if="!selectAllMembers" class="actions">
           <!-- <a>
                          <a-icon type="reload"/>
                          批量更新成员信息*
                      </a>-->
 
           <a-dropdown :trigger="['click']" placement="bottomCenter">
-            <a class="ant-dropdown-link" href="#">
+            <a
+              class="ant-dropdown-link"
+              href="javascript:;"
+              @click="showInviteMember = true"
+            >
               <a-icon type="user-add" />
               添加成员
             </a>
-            <a-menu slot="overlay">
+            <!-- <a-menu slot="overlay">
               <a-menu-item>
                 <a href="javascript:;" @click="showInviteMember = true">
                   <a-icon type="user-add" />
@@ -116,10 +123,10 @@
                   </a>
                 </a-upload>
               </a-menu-item>
-            </a-menu>
+            </a-menu> -->
           </a-dropdown>
           <template v-if="currentDepartmentCode">
-            <a-dropdown
+            <!-- <a-dropdown
               :trigger="['click']"
               v-model="showCreateChildDepartment"
               placement="bottomCenter"
@@ -135,7 +142,7 @@
                   @update="createChildDepartmentSuccess"
                 ></create-department>
               </div>
-            </a-dropdown>
+            </a-dropdown> 
             <a-dropdown
               :trigger="['click']"
               v-model="showEditDepartment"
@@ -156,7 +163,7 @@
             <a @click="deleteDepartment">
               <a-icon :style="{ fontSize: '14px' }" type="delete" />
               删除部门</a
-            >
+            >-->
           </template>
         </div>
       </div>
@@ -174,31 +181,31 @@
               }"
             >
               <!--                            <a-spin v-if="loadingMore"/>-->
-              <a-button @click="onLoadMore">加载更多</a-button>
+              <!-- <a-button @click="onLoadMore">加载更多</a-button> -->
             </div>
             <a-list-item :key="index" v-for="(item, index) in members">
               <a-list-item-meta>
                 <a-avatar slot="avatar" :src="item.avatar" />
                 <div slot="title">
                   <router-link
-                    :to="`/members/profile/${item.code}`"
+                    :to="`/members/profile/${item.id}`"
                     class="text-default"
                     >{{ item.name }}
                   </router-link>
-                  <a-tag class="m-l-sm" v-if="item.is_owner">拥有者</a-tag>
+                  <span v-if="item.department">
+                    ({{ item.department.name }})
+                  </span>
+                  <!-- <a-tag class="m-l-sm" v-if="item.is_owner">拥有者</a-tag> -->
                 </div>
                 <div slot="description">
                   <!--<a-tooltip :mouseEnterDelay="0.3" :title="item.create_time">-->
-                  <span
-                    >{{ item.email }}
-                    <span v-if="item.departments">
-                      - {{ item.departments }}</span
-                    >
+                  <span>
+                    {{ item.email }}
                   </span>
                   <!--</a-tooltip>-->
                 </div>
               </a-list-item-meta>
-              <template v-if="item.is_owner">
+              <template>
                 <!-- <a
                   class="muted"
                   slot="actions"
@@ -220,6 +227,7 @@
                   </a-tooltip>
                 </a> -->
                 <a
+                  v-if="!selectAllMembers"
                   class="muted"
                   slot="actions"
                   @click="deleteAccount(item, index)"
@@ -236,7 +244,7 @@
     </div>
     <invite-department-member
       v-model="showInviteMember"
-      :department-code="currentDepartmentCode"
+      :department-id="currentDepartmentId"
       v-if="showInviteMember"
       @update="getMembers"
     ></invite-department-member>
@@ -271,7 +279,8 @@ export default {
   data() {
     return {
       keyword: "",
-      selectedKeys: ["0"],
+      selectAllMembers: true,
+      selectedKeys: [],
       menus: [
         { icon: "team", title: "所有成员" },
         // {icon: 'usergroup-add', title: '新加入的成员'},
@@ -309,6 +318,9 @@ export default {
       }
       return headers;
     },
+    hideActionButton() {
+      return this.selectedKeys.length === 0;
+    },
   },
   watch: {
     keyword() {
@@ -328,7 +340,7 @@ export default {
         if (res.data.list) {
           res.data.list.forEach((v) => {
             list.push({
-              key: v.code,
+              key: v.id,
               title: v.name,
               isLeaf: !v.hasNext,
               scopedSlots: { icon: "custom" },
@@ -339,12 +351,25 @@ export default {
         this.departmentLoading = false;
       });
     },
+
+    getAllMembers() {
+      console.log("getAllMembers");
+      this.selectAllMembers = true;
+      this.selectedKeys = [];
+      this.requestData.departmentId = null;
+      this.getMembers({ key: 0 });
+    },
+
     getMembers({ key } = {}, reload = true) {
       let app = this;
+
+      app.selectedKeys = [];
+
+      console.log("getMembers", { key });
       if (key != undefined) {
         this.currentDepartmentCode = "";
         this.currentMenu = this.menus[key];
-        this.selectedKeys = [key.toString()];
+        this.selectedKeys = [];
         this.requestData.searchType = key;
       }
       app.loading = true;
@@ -357,8 +382,8 @@ export default {
         } else {
           app.members = app.members.concat(res.data.list);
         }
-        app.pagination.total = res.data.total;
-        app.showLoadingMore = app.pagination.total > app.members.length;
+        // app.pagination.total = res.data.total;
+        // app.showLoadingMore = app.pagination.total > app.members.length;
         app.loading = false;
         app.loadingMore = false;
       });
@@ -379,14 +404,17 @@ export default {
       this.getMembers({}, false);
     },
     onSelect(selectedKeys, e) {
+      this.selectAllMembers = false;
+
+      console.log("onSelect", selectedKeys["0"]);
       // this.onLoadData(e.node);
-      this.selectedKeys = [];
+      this.selectedKeys = [selectedKeys["0"]];
       this.currentMenu = e.node.dataRef;
-      this.currentDepartmentCode = e.node.dataRef.key;
+      this.currentDepartmentId = e.node.dataRef.key;
       this.currentTreeNode = e.node;
       let app = this;
-      this.requestData.searchType = 4;
-      this.requestData.departmentCode = e.node.dataRef.key;
+      // this.requestData.searchType = 4;
+      this.requestData.departmentId = e.node.dataRef.key;
       app.loading = true;
       getMembers(this.requestData).then((res) => {
         app.members = res.data.list;
@@ -404,7 +432,7 @@ export default {
             if (res.data.list.length) {
               res.data.list.forEach((v) => {
                 list.push({
-                  key: v.code,
+                  key: v.id,
                   title: v.name,
                   isLeaf: !v.hasNext,
                   scopedSlots: { icon: "custom" },
@@ -422,7 +450,7 @@ export default {
     createDepartmentSuccess(data) {
       let list = [...this.treeData];
       list.push({
-        key: data.code,
+        key: data.id,
         title: data.name,
         isLeaf: true,
         scopedSlots: { icon: "custom" },
@@ -514,8 +542,8 @@ export default {
         okType: "danger",
         cancelText: "再想想",
         onOk() {
-          if (app.currentDepartmentCode) {
-            removeMember(member.code, app.currentDepartmentCode).then((res) => {
+          if (app.currentDepartmentId) {
+            removeMember(member.id, app.currentDepartmentId).then((res) => {
               if (!checkResponse(res)) {
                 return;
               }
@@ -523,13 +551,13 @@ export default {
               notice({ title: "移除成功" }, "notice", "success");
             });
           } else {
-            del(member.code).then((res) => {
-              if (!checkResponse(res)) {
-                return;
-              }
-              app.members.splice(index, 1);
-              notice({ title: "移除成功" }, "notice", "success");
-            });
+            // del(member.code).then((res) => {
+            //   if (!checkResponse(res)) {
+            //     return;
+            //   }
+            //   app.members.splice(index, 1);
+            //   notice({ title: "移除成功" }, "notice", "success");
+            // });
           }
           return Promise.resolve();
         },

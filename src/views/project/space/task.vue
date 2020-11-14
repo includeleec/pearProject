@@ -44,9 +44,9 @@
             <span class="field">
               <a-dropdown :trigger="['click']">
                 <span>
-                  <a-tag :color="statusColor(project.status)"
-                    >项目状态:{{ project.statusText }}</a-tag
-                  >
+                  <a-tag :color="statusColor(project.status)">{{
+                    project.statusText
+                  }}</a-tag>
                 </span>
 
                 <a-menu

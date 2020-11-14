@@ -61,7 +61,7 @@
             ></a-input>
           </div>
         </div>
-        <div class="content-item">
+        <!-- <div class="content-item">
           <div class="infos">
             <p class="item-title">项目公开性</p>
             <a-select size="large" v-model="project.private">
@@ -73,7 +73,7 @@
               </a-select-option>
             </a-select>
           </div>
-        </div>
+        </div> -->
         <div class="content-item">
           <div class="infos">
             <p class="item-title">项目拥有者</p>
@@ -144,7 +144,7 @@
         </div>
       </div>
     </a-tab-pane> -->
-    <a-tab-pane key="3">
+    <!-- <a-tab-pane key="3">
       <span slot="tab">
         <a-icon type="check-square" />
         任务设置
@@ -193,8 +193,8 @@
           <a-switch v-model="project.open_task_private" @change="saveProject" />
         </div>
       </div>
-    </a-tab-pane>
-    <a-tab-pane key="4" forceRender>
+    </a-tab-pane> -->
+    <!-- <a-tab-pane key="4" forceRender>
       <span slot="tab">
         <a-icon type="deployment-unit" />
         任务流转
@@ -493,7 +493,7 @@
           </div>
         </div>
       </div>
-    </a-tab-pane>
+    </a-tab-pane> -->
     <a-tab-pane key="5">
       <span slot="tab">
         <a-icon type="ellipsis" />
