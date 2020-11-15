@@ -48,3 +48,11 @@ export function _projectStats(data) {
 export function _getProjectReport(data) {
   return $http.post("project/project/_getProjectReport", data);
 }
+
+// 设为项目负责人
+export function setBelongMember(code, belong_member_id) {
+  return $http.post("project/project/setBelongMember", {
+    code,
+    belong_member_id,
+  });
+}

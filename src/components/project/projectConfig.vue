@@ -61,28 +61,38 @@
             ></a-input>
           </div>
         </div>
-        <!-- <div class="content-item">
+
+        <div class="content-item">
           <div class="infos">
-            <p class="item-title">项目公开性</p>
-            <a-select size="large" v-model="project.private">
-              <a-select-option :key="0">
-                公开项目（所有人都可通过链接访问，仅项目成员可编辑）
-              </a-select-option>
-              <a-select-option :key="1">
-                私有项目（仅项目成员可查看和编辑）
+            <p class="item-title">项目负责部门</p>
+            <a-select size="large" v-model="project.belong_department_id">
+              <a-select-option
+                v-for="department in departments"
+                :value="department.id"
+                :key="department.id"
+              >
+                {{ department.name }}
               </a-select-option>
             </a-select>
           </div>
-        </div> -->
+        </div>
+
+        <div v-if="project.belong_member" class="content-item">
+          <div class="infos">
+            <p class="item-title">项目负责人</p>
+            <div class="m-t">
+              <a-avatar :src="project.belong_member.avatar"></a-avatar>
+              <span class="m-l">{{ project.belong_member.name }}</span>
+            </div>
+          </div>
+        </div>
+
         <div class="content-item">
           <div class="infos">
-            <p class="item-title">项目拥有者</p>
+            <p class="item-title">项目创建人</p>
             <div class="m-t">
               <a-avatar :src="project.owner_avatar"></a-avatar>
               <span class="m-l">{{ project.owner_name }}</span>
-              <!--<a-button class="middle-btn pull-right" size="large">
-                                移交
-                            </a-button>-->
             </div>
           </div>
         </div>
@@ -545,6 +555,7 @@ import {
   del as delTaskWorkflow,
 } from "../../api/taskWorkflow";
 import { _getAll as getTaskStages } from "../../api/taskStages";
+import { list as getDepartments } from "../../api/department";
 import { list as getProjectMembers } from "../../api/projectMember";
 
 import { notice } from "../../assets/js/notice";
@@ -621,6 +632,7 @@ export default {
       ],
       projectMembers: [],
       taskStages: [],
+      departments: [],
       uploadLoading: false,
       uploadAction: getApiUrl("project/project/uploadCover"),
     };
@@ -647,6 +659,7 @@ export default {
   created() {
     this.getProject();
     this.getTaskWorkflowList();
+    this.getDepartments();
   },
   methods: {
     getProject() {
@@ -680,6 +693,7 @@ export default {
         open_task_private: Number(project.open_task_private),
         schedule: Number(project.schedule),
         auto_update_schedule: Number(project.auto_update_schedule),
+        belong_department_id: project.belong_department_id,
       }).then((res) => {
         if (!checkResponse(res)) {
           return;
@@ -870,6 +884,12 @@ export default {
         this.taskStages = list;
       });
     },
+    getDepartments() {
+      getDepartments().then((res) => {
+        this.departments = res.data.list;
+      });
+    },
+
     getTaskWorkflowRules(taskWorkflowCode) {
       _getTaskWorkflowRules({ taskWorkflowCode: taskWorkflowCode }).then(
         (res) => {

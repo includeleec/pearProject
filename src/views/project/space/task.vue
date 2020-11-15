@@ -81,7 +81,7 @@
 
             <!-- 项目负责人 -->
             <span class="label label-normal" v-if="project.belong_member">
-              项目负责人: {{ project.belong_member.name }}</span
+              负责人: {{ project.belong_member.name }}</span
             >
 
             <!-- 是否为公开项目 -->
@@ -763,16 +763,26 @@
             slot-scope="item, index"
           >
             <span slot="actions" v-if="!item.is_owner">
-              <a class="muted" @click="removeMember(item, index)"
+              <a
+                v-if="!item.belong_member"
+                class="muted"
+                @click="removeMember(item, index)"
                 ><a-icon type="user-delete" /> 移除</a
               >
-              <!-- <a-button size="small" type="dashed" icon="user-add"
-                                  v-if="!item.is_owner"
-                        >操作</a-button>-->
             </span>
             <a-list-item-meta :description="item.email">
-              <span slot="title">{{ item.name }}</span>
-              <a-avatar slot="avatar" icon="user" :src="item.avatar" />
+              <span slot="title"
+                >{{ item.name }}
+
+                <a
+                  v-if="!item.belong_member"
+                  class="muted"
+                  @click="setBelongMember(item, index)"
+                  ><a-icon type="user-belong" /> 设为负责人</a
+                >
+              </span>
+
+              <!-- <a-avatar slot="avatar" icon="user" :src="item.avatar" /> -->
             </a-list-item-meta>
           </a-list-item>
         </a-list>
@@ -966,7 +976,11 @@ import {
   sort,
   tasks as getTasks,
 } from "../../../api/taskStages";
-import { read as getProject, doData } from "../../../api/project";
+import {
+  read as getProject,
+  doData,
+  setBelongMember,
+} from "../../../api/project";
 import {
   inviteMember,
   list as getProjectMembers,
@@ -1783,6 +1797,17 @@ export default {
         // this.$emit("update", this.project);
       });
     },
+
+    setBelongMember(member, index) {
+      let app = this;
+      setBelongMember(app.code, member.id).then((res) => {
+        if (checkResponse(res)) {
+          // 更新 UI
+          this.getProject();
+          this.getProjectMembers();
+        }
+      });
+    },
   },
 };
 </script>
@@ -1838,6 +1863,10 @@ export default {
       &:hover {
         background-color: #eee;
         cursor: pointer;
+      }
+
+      .ant-list-item-action {
+        margin-left: 0;
       }
     }
   }
