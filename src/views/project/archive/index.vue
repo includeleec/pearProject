@@ -43,12 +43,12 @@
             >
             <a-avatar slot="avatar" icon="user" :src="item.cover" />
           </a-list-item-meta>
-          <div class="other-info muted">
+          <!-- <div class="other-info muted">
             <div class="info-item">
               <span>移动日期</span>
               <span>{{ moment(item.archive_time).format("YYYY-MM-DD") }}</span>
             </div>
-          </div>
+          </div> -->
         </a-list-item>
       </a-list>
     </wrapper-content>

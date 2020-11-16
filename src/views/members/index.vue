@@ -191,10 +191,17 @@
                     :to="`/members/profile/${item.id}`"
                     class="text-default"
                     >{{ item.name }}
+
+                    <a-tag v-if="item.department">
+                      {{ item.department.name }}
+                    </a-tag>
                   </router-link>
-                  <span v-if="item.department">
+
+                  <!-- <span v-if="item.department">
                     ({{ item.department.name }})
-                  </span>
+
+                    
+                  </span> -->
                   <!-- <a-tag class="m-l-sm" v-if="item.is_owner">拥有者</a-tag> -->
                 </div>
                 <div slot="description">

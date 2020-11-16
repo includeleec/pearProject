@@ -755,7 +755,18 @@ export default {
               if (!checkResponse(res)) {
                 return;
               }
-              app.$router.replace("/project/archive");
+
+              notice(
+                {
+                  title: "归档成功",
+                },
+                "notice",
+                "success"
+              );
+
+              window.location.reload();
+
+              // app.$router.replace("/project/archive");
             });
             return Promise.resolve();
           },

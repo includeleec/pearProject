@@ -33,8 +33,8 @@
             </div>-->
       <a-tabs v-model="selectBy" @change="selectChange" :animated="false">
         <a-tab-pane key="all" tab="全部项目"></a-tab-pane>
-        <a-tab-pane key="my" tab="我创建的"></a-tab-pane>
-        <a-tab-pane key="collect" tab="我的收藏"></a-tab-pane>
+        <a-tab-pane key="my" tab="我负责的"></a-tab-pane>
+        <!-- <a-tab-pane key="collect" tab="我的收藏"></a-tab-pane> -->
         <a-tab-pane key="archive" tab="已归档"></a-tab-pane>
         <a-tab-pane key="deleted" tab="回收站"></a-tab-pane>
         <a-button
@@ -71,7 +71,10 @@
                 >{{ item.name }}
                 <!-- 当前阶段的状态 -->
                 <a-tag
-                  v-if="item.current_task_stage.status === 2"
+                  v-if="
+                    item.current_task_stage &&
+                    item.current_task_stage.status === 2
+                  "
                   :color="statusColor(item.current_task_stage.status)"
                   >{{ item.current_task_stage.status_text }}</a-tag
                 >
@@ -146,7 +149,7 @@
                 <a-icon type="setting" />
               </a-tooltip>
             </span>
-            <span slot="actions">
+            <!-- <span slot="actions">
               <a-tooltip
                 :title="item.collected ? '取消收藏' : '加入收藏'"
                 @click="doAction(item, 'collect', index)"
@@ -159,7 +162,7 @@
                   v-show="item.collected"
                 />
               </a-tooltip>
-            </span>
+            </span> -->
           </template>
           <template v-if="selectBy === 'archive'">
             <span slot="actions">
