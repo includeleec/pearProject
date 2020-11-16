@@ -64,6 +64,29 @@
 
         <div class="content-item">
           <div class="infos">
+            <p class="item-title">当前阶段</p>
+            <a-select size="large" v-model="project.current_task_stage_id">
+              <a-select-option
+                v-for="taskstage in taskStages"
+                :value="taskstage.id"
+                :key="taskstage.id"
+              >
+                {{ taskstage.name }}
+
+                <!-- 只有滞后时才会显示 text -->
+                <a-tag
+                  v-if="taskstage.status == 2"
+                  :color="statusColor(taskstage.status)"
+                >
+                  {{ taskstage.status_text }}
+                </a-tag>
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+
+        <div class="content-item">
+          <div class="infos">
             <p class="item-title">项目负责部门</p>
             <a-select size="large" v-model="project.belong_department_id">
               <a-select-option
@@ -554,7 +577,10 @@ import {
   edit as EditTaskWorkflow,
   del as delTaskWorkflow,
 } from "../../api/taskWorkflow";
-import { _getAll as getTaskStages } from "../../api/taskStages";
+import {
+  _getAll as getTaskStages,
+  list as getTaskStageList,
+} from "../../api/taskStages";
 import { list as getDepartments } from "../../api/department";
 import { list as getProjectMembers } from "../../api/projectMember";
 
@@ -660,6 +686,7 @@ export default {
     this.getProject();
     this.getTaskWorkflowList();
     this.getDepartments();
+    this.getTaskStageList();
   },
   methods: {
     getProject() {
@@ -694,6 +721,7 @@ export default {
         schedule: Number(project.schedule),
         auto_update_schedule: Number(project.auto_update_schedule),
         belong_department_id: project.belong_department_id,
+        current_task_stage_id: project.current_task_stage_id,
       }).then((res) => {
         if (!checkResponse(res)) {
           return;
@@ -706,6 +734,11 @@ export default {
           "notice",
           "success"
         );
+
+        window.location.reload();
+
+        // 更新详情页UI data
+        // this.getProject();
       });
     },
     archiveProject() {
@@ -884,6 +917,13 @@ export default {
         this.taskStages = list;
       });
     },
+    getTaskStageList() {
+      getTaskStageList({ projectCode: this.code }).then((res) => {
+        console.log("getTaskStageList", res);
+        this.taskStages = res.data.list;
+      });
+    },
+
     getDepartments() {
       getDepartments().then((res) => {
         this.departments = res.data.list;
@@ -1008,6 +1048,18 @@ export default {
     },
     priColor(pri) {
       switch (pri) {
+        case 1:
+          return "green";
+        case 2:
+          return "#ed3f14";
+        default:
+          return "green";
+      }
+    },
+
+    statusColor(status) {
+      status = Number(status);
+      switch (status) {
         case 1:
           return "green";
         case 2:

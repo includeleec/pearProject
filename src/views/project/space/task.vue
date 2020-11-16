@@ -43,13 +43,20 @@
 
             <span class="field">
               <a-dropdown :trigger="['click']">
-                <span>
-                  <a-tag :color="statusColor(project.status)">{{
-                    project.statusText
-                  }}</a-tag>
+                <!-- 当前阶段,状态 -->
+                <span v-if="project.currentTaskStage">
+                  <a-tag :color="statusColor(project.currentTaskStage.status)">
+                    当前阶段:
+                    {{ project.currentTaskStage.name }}
+
+                    <!-- 只有滞后时才会显示 text -->
+                    <span v-if="project.currentTaskStage.status == 2">
+                      ({{ project.currentTaskStage.status_text }})
+                    </span>
+                  </a-tag>
                 </span>
 
-                <a-menu
+                <!-- <a-menu
                   class="field-right-menu"
                   slot="overlay"
                   :selectable="false"
@@ -75,7 +82,7 @@
                       ></a-icon>
                     </div>
                   </a-menu-item>
-                </a-menu>
+                </a-menu> -->
               </a-dropdown>
             </span>
 
@@ -143,7 +150,7 @@
       </div>
     </div>
     <wrapper-content :showHeader="false">
-      <draggable
+      <!-- <draggable
         v-model="taskStages"
         :options="{
           group: 'stages',
@@ -156,7 +163,9 @@
         id="board-scrum-stages"
         class="board-scrum-stages"
         @end="stageSort"
-      >
+      > -->
+
+      <div id="board-scrum-stages" class="board-scrum-stages">
         <div
           class="scrum-stage"
           v-for="(stage, index) in taskStages"
@@ -170,10 +179,7 @@
                          {{ stage.name }}
                          <span class="task-count" v-if="stage.list.length > 0"> · {{ stage.list.length }}</span>
                      </template>-->
-          <header
-            class="scrum-stage-header ui-sortable-handle"
-            v-show="!stage.tasksLoading"
-          >
+          <header class="scrum-stage-header" v-show="!stage.tasksLoading">
             <div class="stage-name hinted">
               {{ stage.name }}
               <!-- <span class="task-count" v-if="stage.tasks.length > 0">
@@ -219,14 +225,14 @@
                 </a-menu>
               </a-dropdown> -->
             </div>
-            <div v-if="stage.plan_date">
+            <div class="stage-plan-time" v-if="stage.plan_date">
               计划时间:
               <span class="label label-normal">
                 {{ showDate(stage.plan_date) }}</span
               >
             </div>
 
-            <div v-if="stage.execute_date">
+            <div class="stage-execute-time" v-if="stage.execute_date">
               实际完成时间:
               <span class="label label-normal">
                 {{ showDate(stage.execute_date) }}</span
@@ -266,10 +272,10 @@
                     <a-icon size="14" type="delete"></a-icon>
                     本列所有任务移到回收站
                   </a-menu-item>
-                  <a-menu-item :key="'delStage_' + stage.code + '_' + index">
+                  <!-- <a-menu-item :key="'delStage_' + stage.code + '_' + index">
                     <a-icon size="14" type="delete"></a-icon>
                     删除列表
-                  </a-menu-item>
+                  </a-menu-item> -->
                 </a-menu>
                 <!--</div>-->
               </a-dropdown>
@@ -652,7 +658,8 @@
                         </div>
                     </header>
                 </div> -->
-      </draggable>
+        <!-- </draggable> -->
+      </div>
       <router-view></router-view>
     </wrapper-content>
     <!--编辑任务列表-->
@@ -1515,11 +1522,11 @@ export default {
         ? moment(stage.execute_date).format("YYYY-MM-DD hh:mm:ss")
         : "";
 
-      console.log("editStage", {
-        status: stage.status,
-        plan_date,
-        execute_date,
-      });
+      // console.log("editStage", {
+      //   status: stage.status,
+      //   plan_date,
+      //   execute_date,
+      // });
       // return;
 
       editStage({
@@ -1548,6 +1555,9 @@ export default {
         }
 
         this.stageModal.modalStatus = false;
+
+        // 更新整体 UI
+        this.getProject();
       });
     },
     setExecutor(member) {

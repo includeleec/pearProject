@@ -1,4 +1,5 @@
 import Vue from "vue";
+import moment from "moment";
 
 Vue.filter("NumberFormat", function(value) {
   if (!value) {
@@ -48,4 +49,12 @@ Vue.filter("ellipsis", function(value) {
     return value.slice(0, maxStrLen) + "...";
   }
   return value;
+});
+
+Vue.filter("formatToDate", function(datetime_str) {
+  if (datetime_str) {
+    return moment(datetime_str).format("YYYY-MM-DD");
+  } else {
+    return "";
+  }
 });

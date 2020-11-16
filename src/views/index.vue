@@ -72,6 +72,7 @@
               @openChange="onOpenChange"
               mode="inline"
             >
+              <!-- 主菜单 -->
               <a-menu-item
                 v-if="
                   !menu.children &&
@@ -83,19 +84,23 @@
                 :disabled="!menu.status"
               >
                 <a-icon :type="menu.icon" />
+
                 <span>{{ menu.title }}</span>
               </a-menu-item>
               <a-sub-menu
                 v-if="menu.children && !menu.is_inner"
                 :key="menu.id.toString()"
               >
+                <!-- 侧边菜单栏 -->
                 <span slot="title">
                   <a-icon :type="menu.icon" />
                   <span>{{ menu.title }}</span>
                 </span>
+
+                <!-- 子菜单 -->
                 <a-menu-item
                   v-for="(secMenu, index) in menu.children"
-                  v-if="!secMenu.is_inner"
+                  v-if="secMenu.is_inner"
                   :key="secMenu.id.toString()"
                   :disabled="!secMenu.status"
                 >

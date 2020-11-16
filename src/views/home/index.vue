@@ -226,13 +226,13 @@
                         class="task-title-wrap"
                         :to="`/project/space/task/${item.projectInfo.code}/detail/${item.code}`"
                       >
-                        <a-tooltip title="优先级">
+                        <!-- <a-tooltip title="优先级">
                           <a-tag :color="priColor(item.pri)">{{
                             item.priText
                           }}</a-tag>
-                        </a-tooltip>
+                        </a-tooltip> -->
                         <a-tooltip :title="item.name">
-                          {{ item.name }}
+                          {{ item.name | ellipsis }}
                         </a-tooltip>
                       </router-link>
                       <div>
@@ -256,8 +256,8 @@
                           class="muted"
                           :to="'/project/space/task/' + item.projectInfo.code"
                         >
-                          <a-tooltip title="所属项目">{{
-                            item.projectInfo.name
+                          <a-tooltip :title="item.projectInfo.name">{{
+                            item.projectInfo.name | ellipsis
                           }}</a-tooltip>
                         </router-link>
                       </div>

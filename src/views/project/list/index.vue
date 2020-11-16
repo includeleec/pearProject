@@ -67,9 +67,15 @@
         <a-list-item slot="renderItem" slot-scope="item, index">
           <a-list-item-meta :description="item.description">
             <div slot="title">
-              <router-link :to="'/project/space/task/' + item.code">{{
-                item.name
-              }}</router-link>
+              <router-link :to="'/project/space/task/' + item.code"
+                >{{ item.name }}
+                <!-- 当前阶段的状态 -->
+                <a-tag
+                  v-if="item.current_task_stage.status === 2"
+                  :color="statusColor(item.current_task_stage.status)"
+                  >{{ item.current_task_stage.status_text }}</a-tag
+                >
+              </router-link>
 
               <!-- 隐私状态 -->
               <!-- <span class="label label-normal" v-if="item.private === 0"
@@ -89,10 +95,20 @@
                 <span>当前阶段</span>
                 <span v-if="item.current_task_stage"
                   >{{ item.current_task_stage.name }}
-                  <!-- 当前阶段的状态 -->
-                  <a-tag :color="statusColor(item.status)">{{
-                    item.current_task_stage.status_text
-                  }}</a-tag>
+                </span>
+              </div>
+
+              <div class="info-item">
+                <span>阶段计划时间</span>
+                <span v-if="item.currentTaskStage"
+                  >{{ item.currentTaskStage.plan_date | formatToDate }}
+                </span>
+              </div>
+
+              <div class="info-item">
+                <span>实际执行时间</span>
+                <span v-if="item.currentTaskStage"
+                  >{{ item.currentTaskStage.execute_date | formatToDate }}
                 </span>
               </div>
 
@@ -108,10 +124,10 @@
                 }}</span>
               </div>
 
-              <div class="info-item">
+              <!-- <div class="info-item">
                 <span>创建人</span>
                 <span>{{ item.owner_name }}</span>
-              </div>
+              </div> -->
               <!-- <div class="info-item schedule">
                 <span>进度</span>
                 <a-progress :strokeWidth="5" :percent="item.schedule" />
@@ -493,14 +509,8 @@ export default {
     }
 
     .ant-list-item-content {
-      display: -webkit-box;
-      display: -ms-flexbox;
       display: flex;
-      -webkit-box-flex: 1;
-      -ms-flex: 1;
-      flex: 1;
-      -webkit-box-pack: end;
-      -ms-flex-pack: end;
+      flex: 2;
       justify-content: flex-end;
 
       .other-info {
