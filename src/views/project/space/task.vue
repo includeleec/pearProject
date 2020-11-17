@@ -239,6 +239,24 @@
               >
             </div>
 
+            <div class="stage-pay-plan" v-if="stage.payPlan">
+              <span>支付计划</span>
+              <div class="content">
+                <span>支付类型:{{ stage.payPlan.type_text }}</span>
+                <span v-if="stage.payPlan.pay_amount > 0"
+                  >支付金额:{{ stage.payPlan.pay_amount }}万元</span
+                >
+                <span v-if="stage.payPlan.pay_date"
+                  >实际支付时间:{{
+                    stage.payPlan.pay_date | formatToDate
+                  }}</span
+                >
+                <span v-if="stage.payPlan.remark"
+                  >备注:{{ stage.payPlan.remark }}</span
+                >
+              </div>
+            </div>
+
             <div class="stage-menu-toggler popover">
               <a-dropdown :trigger="['click']" placement="bottomCenter">
                 <a-tooltip placement="top">
@@ -258,6 +276,11 @@
                     <a-icon type="edit"></a-icon>
                     编辑列表
                   </a-menu-item>
+                  <a-menu-item :key="'editPayPlan_' + stage.id + '_' + index">
+                    <a-icon type="edit"></a-icon>
+                    编辑支付计划
+                  </a-menu-item>
+
                   <a-menu-item :key="'setExecutor_' + stage.code + '_' + index">
                     <a-icon size="14" type="user"></a-icon>
                     设置本列所有任务执行者
@@ -662,6 +685,89 @@
       </div>
       <router-view></router-view>
     </wrapper-content>
+
+    <!--编辑支付计划-->
+
+    <a-modal
+      :width="360"
+      v-model="payPlanModal.modalStatus"
+      :title="payPlanModal.modalTitle"
+      :bodyStyle="{ paddingBottom: '1px' }"
+      :footer="null"
+    >
+      <a-form @submit.prevent="editPayPlan" :form="payPlanModal.form">
+        <a-form-item>
+          <a-input
+            ref="inputStageTitle"
+            placeholder="列表标题"
+            disabled="disabled"
+            v-decorator="[
+              'name',
+              { rules: [{ required: true, message: '请输入列表标题' }] },
+            ]"
+          />
+        </a-form-item>
+
+        <a-form-item label="支付类型" has-feedback>
+          <a-select v-decorator="['type']" placeholder="请选择支付类型">
+            <a-select-option :value="1"> 首款 </a-select-option>
+            <a-select-option :value="2"> 进度款1 </a-select-option>
+            <a-select-option :value="3"> 进度款2 </a-select-option>
+            <a-select-option :value="4"> 尾款 </a-select-option>
+            <a-select-option :value="5"> 质保金 </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item>
+          <a-input
+            placeholder="支付金额,单位:万元"
+            v-decorator="[
+              'pay_amount',
+              {
+                rules: [
+                  { required: true, message: '请输入支付金额,单位:万元' },
+                ],
+              },
+            ]"
+          />
+        </a-form-item>
+
+        <a-form-item>
+          <a-date-picker
+            placeholder="实际支付时间"
+            v-decorator="[
+              'pay_date',
+              { rules: [{ type: 'date', message: '实际支付时间' }] },
+            ]"
+          />
+        </a-form-item>
+
+        <a-form-item>
+          <a-input placeholder="备注" v-decorator="['remark']" />
+        </a-form-item>
+
+        <a-form-item>
+          <div class="action-btn pull-right">
+            <a
+              type="text"
+              class="cancel-text muted"
+              @click="payPlanModal.modalStatus = false"
+            >
+              取消
+            </a>
+
+            <a-button type="danger" @click="delPayPlan" class="middle-btn"
+              >删除</a-button
+            >
+
+            <a-button type="primary" htmlType="submit" class="middle-btn"
+              >保存</a-button
+            >
+          </div>
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
     <!--编辑任务列表-->
     <a-modal
       :width="360"
@@ -724,6 +830,7 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
     <!--项目成员-->
     <a-drawer
       wrapClassName="info-drawer"
@@ -1005,6 +1112,9 @@ import {
   edit as editStage,
   del as delStage,
 } from "../../../api/taskStages";
+
+import { edit as editPayPlan, del as delPayPlan } from "../../../api/payPlan";
+
 import {
   checkResponse,
   getApiUrl,
@@ -1057,6 +1167,16 @@ export default {
         modalStatus: false,
         confirmLoading: false,
         modalTitle: "编辑列表",
+      },
+
+      payPlanModal: {
+        form: this.$form.createForm(this),
+        stageCode: "",
+        stageId: "",
+        stageIndex: 0,
+        modalStatus: false,
+        confirmLoading: false,
+        modalTitle: "编辑支付计划",
       },
 
       slideMenuKey: "",
@@ -1433,6 +1553,34 @@ export default {
           });
           this.stageModal.modalStatus = true;
           break;
+
+        case "editPayPlan":
+          this.payPlanModal.stageId = stageCode;
+          this.payPlanModal.stageIndex = stageIndex;
+
+          console.log("editPayPlan", stageIndex, this.taskStages[stageIndex]);
+          this.$nextTick(() => {
+            if (this.taskStages[stageIndex].payPlan) {
+              this.payPlanModal.form.setFieldsValue({
+                name: this.taskStages[stageIndex].name,
+                pay_date: this.taskStages[stageIndex].payPlan.pay_date,
+                pay_amount: this.taskStages[stageIndex].payPlan.pay_amount,
+                type: this.taskStages[stageIndex].payPlan.type,
+                remark: this.taskStages[stageIndex].payPlan.remark,
+              });
+            } else {
+              this.payPlanModal.form.setFieldsValue({
+                name: this.taskStages[stageIndex].name,
+                pay_date: "",
+                pay_amount: "",
+                type: "",
+                remark: "",
+              });
+            }
+          });
+          this.payPlanModal.modalStatus = true;
+          break;
+
         case "recycleBatch":
           //您确定要把列表下的所有任务移到回收站吗？
           this.$confirm({
@@ -1557,9 +1705,73 @@ export default {
         this.stageModal.modalStatus = false;
 
         // 更新整体 UI
-        this.getProject();
+        this.getTaskStages();
       });
     },
+    // 编辑支付计划 submit
+    editPayPlan() {
+      let data = this.payPlanModal.form.getFieldsValue();
+
+      let pay_date = data.pay_date
+        ? moment(data.pay_date).format("YYYY-MM-DD hh:mm:ss")
+        : "";
+
+      let pay_amount = data.pay_amount;
+      let remark = data.remark;
+
+      editPayPlan({
+        pay_date,
+        pay_amount,
+        remark,
+        task_stage_id: this.payPlanModal.stageId,
+        type: data.type,
+      }).then((res) => {
+        const result = checkResponse(res);
+        if (!result) {
+          return false;
+        }
+
+        // 更新前台UI
+        // this.taskStages[this.payPlanModal.stageIndex].pay_date = data.plan_date;
+        // this.taskStages[this.payPlanModal.stageIndex].pay_amount =
+        //   data.pay_amount;
+
+        this.payPlanModal.modalStatus = false;
+
+        // 更新整体 UI
+        this.getTaskStages();
+      });
+    },
+
+    // 删除支付计划
+    delPayPlan() {
+      let app = this;
+      this.$confirm({
+        title: `您确定要将该支付计划从项目中移除吗？`,
+        content: `移除后该支付计划将不可见`,
+        okText: "移除",
+        okType: "danger",
+        cancelText: "再想想",
+        onOk() {
+          delPayPlan({
+            task_stage_id: app.payPlanModal.stageId,
+          }).then((res) => {
+            const result = checkResponse(res);
+            if (!result) {
+              return false;
+            }
+
+            app.payPlanModal.modalStatus = false;
+
+            // 更新整体 UI
+            app.getTaskStages();
+          });
+
+          return Promise.resolve();
+        },
+      });
+    },
+
     setExecutor(member) {
       let stage = this.taskStages[this.projectMemberModal.currentStageIndex];
       let taskCodes = [];
