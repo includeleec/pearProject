@@ -138,7 +138,7 @@
             </div>
 
             <div class="stage-execute-time" v-if="stage.execute_date">
-              实际完成时间:
+              实际执行时间:
               <span class="label label-normal">
                 {{ showDate(stage.execute_date) }}</span
               >
@@ -670,10 +670,10 @@
         </a-form-item>
         <a-form-item>
           <a-date-picker
-            placeholder="实际完成时间"
+            placeholder="实际执行时间"
             v-decorator="[
               'execute_date',
-              { rules: [{ type: 'date', message: '请输入实际完成时间' }] },
+              { rules: [{ type: 'date', message: '请输入实际执行时间' }] },
             ]"
           />
         </a-form-item>

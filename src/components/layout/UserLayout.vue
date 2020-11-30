@@ -6,7 +6,7 @@
                     <a-badge>
                         <a href="/">
                             <img src="@/assets/image/common/logo-csg-h.png" class="logo" alt="logo">
-                            <span class="title">广西电网智能电网二次规划项目管理</span>
+                            <span class="title">智能电网二次规划设计项目管理工具</span>
                         </a>
                     </a-badge>
                 </div>
