@@ -1,10 +1,6 @@
 <template>
   <div class="home-index">
-    <div class="page-header">
-      <!-- <p class="day-text muted">『 {{ yiyan.hitokoto }}』 —— 《{{ yiyan.from }}》 <a class="muted" @click="getYiYan">
-                <a-icon type="reload"/>
-            </a>
-            </p> -->
+    <!-- <div class="page-header">
       <div class="header-content" v-if="userInfo">
         <div class="left-content">
           <div class="avatar">
@@ -25,20 +21,6 @@
           </div>
         </div>
         <div class="right-content">
-          <!--<div class="content-item">
-                        <div class="item-title muted">
-                            任务数
-                        </div>
-                        <div class="item-text">
-                            <span>{{task.total}}</span>
-                        </div>
-                    </div>-->
-          <!-- <div class="content-item">
-            <div class="item-title muted">团队人数</div>
-            <div class="item-text">
-              <span>{{ accounts.total }}</span>
-            </div>
-          </div> -->
           <div class="content-item">
             <div class="item-title muted">项目总数</div>
             <div class="item-text">
@@ -47,7 +29,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--<wrapper-content :showHeader="false">-->
     <div class="page-wrapper">
       <a-row :gutter="24">
@@ -83,12 +65,7 @@
                           theme="filled"
                           style="color: #ffaf38; margin-right: 6px"
                           v-show="item.collected"
-                        />{{ item.name }}
-
-                        <!-- 项目状态 -->
-                        <a-tag :color="statusColor(item.status)" class="m-l">{{
-                          item.statusText
-                        }}</a-tag>
+                        />{{ item.name | ellipsis }}
                       </router-link>
                     </div>
                     <div slot="description" class="card-description">
@@ -277,69 +254,6 @@
               @change="onLoadMoreTask"
             />
           </a-card>
-          <!-- <a-col
-                             style="padding: 0 12px"
-                             :xl="8"
-                             :lg="24"
-                             :md="24"
-                             :sm="24"
-                             :xs="24">
-                         <a-card title="快速开始 / 便捷导航" style="margin-bottom: 24px" :bordered="false"
-                                 :body-style="{padding: 0}">
-                             <div class="item-group">
-                                 <a>操作一</a>
-                                 <a>操作二</a>
-                                 <a>操作三</a>
-                                 <a>操作四</a>
-                                 <a>操作五</a>
-                                 <a>操作六</a>
-                                 <a-button size="small" type="primary" ghost icon="plus">添加</a-button>
-                             </div>
-                         </a-card>-->
-          <!--    <a-card title="XX 指数" style="margin-bottom: 24px" :loading="radarLoading" :bordered="false" :body-style="{ padding: 0 }">
-                            <div style="min-height: 400px;">
-                                &lt;!&ndash; :scale="scale" :axis1Opts="axis1Opts" :axis2Opts="axis2Opts"  &ndash;&gt;
-                                <radar :data="radarData" />
-                            </div>
-                        </a-card>-->
-          <!-- <a-card
-            :loading="loading"
-            :title="'团队  · ' + accounts.total"
-            :bordered="false"
-          >
-            <div class="members">
-              <a-row>
-                <a-col
-                  :span="8"
-                  v-for="(item, index) in accounts.list"
-                  :key="index"
-                >
-                  <a
-                    @click="
-                      routerLink(
-                        '/members/profile/' +
-                          item.membar_account_code +
-                          '?key=3'
-                      )
-                    "
-                    style="display: flex; align-items: center"
-                  >
-                    <a-avatar size="small" :src="item.avatar" />
-                    <span class="member">{{ item.name }}</span>
-                  </a>
-                </a-col>
-              </a-row>
-            </div>
-            <a-pagination
-              class="pull-right m-b"
-              :defaultPageSize="accounts.pageSize"
-              size="small"
-              v-show="accounts.total > accounts.pageSize"
-              v-model="accounts.page"
-              :total="accounts.total"
-              @change="onLoadMoreAccounts"
-            />
-          </a-card> -->
         </a-col>
       </a-row>
     </div>
@@ -454,12 +368,7 @@ export default {
         this.accounts.total = res.data.total;
       });
     },
-    // getYiYan() {
-    //     let app = this;
-    //     getYiYan(function (data) {
-    //         app.yiyan = data
-    //     }, 'd')
-    // },
+
     getTasks() {
       this.task.loading = true;
       selfList({

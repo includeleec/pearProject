@@ -1,0 +1,220 @@
+.
+├── LICENSE
+├── README.md
+├── babel.config.js
+├── package.json
+├── public
+│   ├── favicon.ico
+│   └── index.html
+├── src
+│   ├── App.vue
+│   ├── api
+│   │   ├── auth.js
+│   │   ├── common
+│   │   │   └── common.js
+│   │   ├── common.js
+│   │   ├── department.js
+│   │   ├── departmentMember.js
+│   │   ├── file.js
+│   │   ├── menu.js
+│   │   ├── node.js
+│   │   ├── notify.js
+│   │   ├── oauth.js
+│   │   ├── organization.js
+│   │   ├── other.js
+│   │   ├── payPlan.js
+│   │   ├── project.js
+│   │   ├── projectCollect.js
+│   │   ├── projectFeatures.js
+│   │   ├── projectInfo.js
+│   │   ├── projectMember.js
+│   │   ├── projectTemplate.js
+│   │   ├── projectVersion.js
+│   │   ├── sourceLink.js
+│   │   ├── system.js
+│   │   ├── task.js
+│   │   ├── taskMember.js
+│   │   ├── taskStages.js
+│   │   ├── taskStagesTemplate.js
+│   │   ├── taskTag.js
+│   │   ├── taskWorkflow.js
+│   │   └── user.js
+│   ├── assets
+│   │   ├── css
+│   │   │   ├── components
+│   │   │   │   ├── base.less
+│   │   │   │   ├── commom.less
+│   │   │   │   ├── index.less
+│   │   │   │   ├── labels.less
+│   │   │   │   ├── layout.less
+│   │   │   │   ├── list.less
+│   │   │   │   ├── task.less
+│   │   │   │   └── warpperContent.less
+│   │   │   ├── project
+│   │   │   │   └── memberMenu.less
+│   │   │   ├── theme.less
+│   │   │   ├── wangEditor.css
+│   │   │   └── wangEditorTxt.css
+│   │   ├── icon
+│   │   │   ├── iconfont.css
+│   │   │   ├── iconfont.eot
+│   │   │   ├── iconfont.js
+│   │   │   ├── iconfont.svg
+│   │   │   ├── iconfont.ttf
+│   │   │   └── iconfont.woff
+│   │   ├── image
+│   │   │   ├── common
+│   │   │   │   ├── background.svg
+│   │   │   │   ├── login.svg
+│   │   │   │   ├── logo\ copy.png
+│   │   │   │   ├── logo-csg-h.png
+│   │   │   │   ├── logo-csg.png
+│   │   │   │   ├── logo.png
+│   │   │   │   ├── logo3.png
+│   │   │   │   └── nullContent.png
+│   │   │   ├── error
+│   │   │   │   ├── 403.svg
+│   │   │   │   ├── 404.svg
+│   │   │   │   └── 500.svg
+│   │   │   └── notify
+│   │   │       ├── bell.svg
+│   │   │       ├── laba.svg
+│   │   │       ├── mail.png
+│   │   │       ├── system.png
+│   │   │       └── ticket.svg
+│   │   └── js
+│   │       ├── dateTime.js
+│   │       ├── http.js
+│   │       ├── notice.js
+│   │       ├── notify.js
+│   │       ├── print.js
+│   │       ├── storage.js
+│   │       └── utils.js
+│   ├── components
+│   │   ├── Trend
+│   │   │   ├── Trend.vue
+│   │   │   ├── index.js
+│   │   │   ├── index.less
+│   │   │   └── index.md
+│   │   ├── chart
+│   │   │   ├── ChartCard.vue
+│   │   │   ├── MiniProgress.vue
+│   │   │   └── RankList.vue
+│   │   ├── editor.vue
+│   │   ├── error
+│   │   │   └── errorPage.vue
+│   │   ├── index.less
+│   │   ├── layout
+│   │   │   ├── UserLayout.vue
+│   │   │   ├── WrapperContent.vue
+│   │   │   ├── account
+│   │   │   │   └── setting.vue
+│   │   │   └── header
+│   │   │       ├── HeaderAvatar.vue
+│   │   │       ├── HeaderNotice.vue
+│   │   │       └── HeaderSelect.vue
+│   │   ├── project
+│   │   │   ├── createDepartment.vue
+│   │   │   ├── inviteDepartmentMember.vue
+│   │   │   ├── inviteProjectMember.vue
+│   │   │   ├── projectConfig.vue
+│   │   │   ├── projectMemberMenu.vue
+│   │   │   ├── projectSelect.vue
+│   │   │   ├── recycleBin.vue
+│   │   │   ├── taskDetail.vue
+│   │   │   ├── taskMemberMenu.vue
+│   │   │   ├── taskSearch.vue
+│   │   │   ├── taskTag.vue
+│   │   │   ├── taskTagMenu.vue
+│   │   │   └── versionDetail.vue
+│   │   ├── table
+│   │   │   └── EditableCell.vue
+│   │   ├── tools
+│   │   │   └── VUploader.vue
+│   │   └── websocket
+│   │       └── socket.vue
+│   ├── config
+│   │   ├── config.js
+│   │   ├── menu.json
+│   │   └── version.js
+│   ├── const
+│   │   └── common.js
+│   ├── main.js
+│   ├── mixins
+│   │   ├── common.js
+│   │   └── pagination.js
+│   ├── router
+│   │   ├── home.js
+│   │   └── index.js
+│   ├── store
+│   │   ├── actions.js
+│   │   ├── index.js
+│   │   ├── modules
+│   │   │   ├── common.js
+│   │   │   └── menu.js
+│   │   ├── mutations.js
+│   │   └── state.js
+│   ├── utils
+│   │   └── filter.js
+│   └── views
+│       ├── account
+│       │   └── setting
+│       │       ├── base.vue
+│       │       └── security.vue
+│       ├── common
+│       │   ├── forgot.vue
+│       │   └── inviteFromLink.vue
+│       ├── error
+│       │   ├── 403.vue
+│       │   ├── 404.vue
+│       │   ├── 500.vue
+│       │   └── install.vue
+│       ├── home
+│       │   └── index.vue
+│       ├── index.vue
+│       ├── member
+│       │   ├── Register.vue
+│       │   ├── forgot.vue
+│       │   └── login.vue
+│       ├── members
+│       │   ├── index.vue
+│       │   └── profile.vue
+│       ├── notify
+│       │   ├── notice.vue
+│       │   └── system.vue
+│       ├── organization
+│       │   └── index.vue
+│       ├── project
+│       │   ├── analysis
+│       │   │   └── index.vue
+│       │   ├── archive
+│       │   │   └── index.vue
+│       │   ├── list
+│       │   │   └── index.vue
+│       │   ├── recycle
+│       │   │   └── index.vue
+│       │   ├── space
+│       │   │   ├── features.vue
+│       │   │   ├── files.vue
+│       │   │   ├── index.vue
+│       │   │   ├── overview.vue
+│       │   │   ├── task.vue
+│       │   │   └── taskdetail.vue
+│       │   └── template
+│       │       ├── index.vue
+│       │       └── taskStages.vue
+│       ├── reset
+│       │   └── email.vue
+│       └── system
+│           ├── account
+│           │   ├── apply.vue
+│           │   ├── auth.vue
+│           │   └── index.vue
+│           └── config
+│               ├── menu.vue
+│               └── node.vue
+├── tree.text
+├── vue.config.js
+└── yarn.lock
+
+53 directories, 164 files

@@ -10,13 +10,8 @@
     >
       <div class="header">
         <span>账号邀请</span>
-        <!-- <a v-if="!departmentId" @click="createInviteLink">通过链接邀请</a> -->
       </div>
-      <!-- <div class="search-content">
-        <a-input v-model="keyword" placeholder="输入昵称或邮箱查找">
-          <a-icon slot="prefix" type="search" />
-        </a-input>
-      </div> -->
+
       <div class="member-list">
         <a-list
           class="project-list"
@@ -147,28 +142,6 @@ export default {
         }
       });
     },
-    // createInviteLink() {
-    //   if (!this.linkInfo.link) {
-    //     createInviteLink({
-    //       inviteType: "organization",
-    //       sourceCode: this.$store.state.currentOrganization.code,
-    //     }).then((res) => {
-    //       const success = checkResponse(res);
-    //       if (success) {
-    //         this.linkInfo.modalStatus = true;
-    //         this.linkInfo.link =
-    //           window.location.href.split("#")[0] +
-    //           "#/invite_from_link/" +
-    //           res.data.code;
-    //         this.linkInfo.overTime = moment(res.data.over_time).format(
-    //           "YYYY年M月D日 HH:mm"
-    //         );
-    //       }
-    //     });
-    //   } else {
-    //     this.linkInfo.modalStatus = true;
-    //   }
-    // },
     search: _.debounce(function () {
       if (!this.keyword) {
         this.list = [];

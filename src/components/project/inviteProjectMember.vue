@@ -10,7 +10,6 @@
     >
       <div class="header">
         <span>账号邀请</span>
-        <!-- <a @click="createInviteLink">通过链接邀请</a> -->
       </div>
       <div class="search-content m-b">
         <a-input v-model="keyword" placeholder="输入昵称或邮箱查找">
@@ -118,7 +117,6 @@ export default {
       keyword: "",
       searching: false,
       list: [],
-      // emptyText: keyword ? '没有搜索结果' : ''
     };
   },
   watch: {

@@ -55,34 +55,6 @@
                     </span>
                   </a-tag>
                 </span>
-
-                <!-- <a-menu
-                  class="field-right-menu"
-                  slot="overlay"
-                  :selectable="false"
-                  @click="saveProject"
-                >
-                  <a-menu-item key="1">
-                    <div class="menu-item-content">
-                      <a-tag :color="statusColor(1)">正常</a-tag>
-                      <a-icon
-                        type="check"
-                        class="check muted"
-                        v-show="project.status == 1"
-                      ></a-icon>
-                    </div>
-                  </a-menu-item>
-                  <a-menu-item key="2">
-                    <div class="menu-item-content">
-                      <a-tag :color="statusColor(2)">滞后</a-tag>
-                      <a-icon
-                        type="check"
-                        class="check muted"
-                        v-show="project.status == 2"
-                      ></a-icon>
-                    </div>
-                  </a-menu-item>
-                </a-menu> -->
               </a-dropdown>
             </span>
 
@@ -90,11 +62,6 @@
             <span class="label label-normal" v-if="project.belong_member">
               负责人: {{ project.belong_member.name }}</span
             >
-
-            <!-- 是否为公开项目 -->
-            <!-- <span class="label label-normal" v-if="project.private === 0"
-              ><a-icon type="global" /> 公开</span
-            > -->
           </a-breadcrumb-item>
         </a-breadcrumb>
       </div>
@@ -120,10 +87,6 @@
               概览</a
             >
           </li>
-          <!-- <li class=""><a class="app" data-app="build"
-                                    @click="$router.push('/project/space/features/' + code)">
-                        版本</a>
-                    </li> -->
         </ul>
       </section>
       <div class="project-nav-footer">
@@ -150,21 +113,6 @@
       </div>
     </div>
     <wrapper-content :showHeader="false">
-      <!-- <draggable
-        v-model="taskStages"
-        :options="{
-          group: 'stages',
-          filter: '.undraggables',
-          handle: '.ui-sortable-handle',
-          ghostClass: 'stage-ghost',
-          animation: 200,
-          forceFallback: false,
-        }"
-        id="board-scrum-stages"
-        class="board-scrum-stages"
-        @end="stageSort"
-      > -->
-
       <div id="board-scrum-stages" class="board-scrum-stages">
         <div
           class="scrum-stage"
@@ -173,57 +121,14 @@
           :id="stage.code"
           :class="{ 'fixed-creator': stage.fixedCreator == true }"
         >
-          <!--<a-spin wrapperClassName="tasks-loading" :spinning="stage.tasksLoading">-->
-          <!--<a-tooltip placement="top" >
-                     <template slot="title">
-                         {{ stage.name }}
-                         <span class="task-count" v-if="stage.list.length > 0"> · {{ stage.list.length }}</span>
-                     </template>-->
           <header class="scrum-stage-header" v-show="!stage.tasksLoading">
             <div class="stage-name hinted">
               {{ stage.name }}
-              <!-- <span class="task-count" v-if="stage.tasks.length > 0">
-                · {{ stage.tasks.length }}</span
-              > -->
 
               <!-- 阶段状态 -->
               <a-tag :color="statusColor(stage.status)">{{
                 stage.statusText
               }}</a-tag>
-
-              <!-- <a-dropdown :trigger="['click']">
-                <span>
-                  <a-tag :color="statusColor(stage.status)">{{
-                    stage.statusText
-                  }}</a-tag>
-                </span>
-                <a-menu
-                  class="field-right-menu"
-                  slot="overlay"
-                  :selectable="false"
-                >
-                  <a-menu-item :key="1">
-                    <div class="menu-item-content">
-                      <a-tag :color="statusColor(1)">正常</a-tag>
-                      <a-icon
-                        type="check"
-                        class="check muted"
-                        v-show="stage.status == 1"
-                      ></a-icon>
-                    </div>
-                  </a-menu-item>
-                  <a-menu-item :key="2">
-                    <div class="menu-item-content">
-                      <a-tag :color="statusColor(2)">滞后</a-tag>
-                      <a-icon
-                        type="check"
-                        class="check muted"
-                        v-show="stage.status == 2"
-                      ></a-icon>
-                    </div>
-                  </a-menu-item>
-                </a-menu>
-              </a-dropdown> -->
             </div>
             <div class="stage-plan-time" v-if="stage.plan_date">
               计划时间:
@@ -267,10 +172,7 @@
                     <a-icon type="ellipsis" style="font-size: 18px" />
                   </a>
                 </a-tooltip>
-                <!--<div slot="overlay" class="task-popover-content">-->
-                <!--<header class="popover-header" name="333">
-                                    <span class="popover-title">列表菜单</span>
-                                </header>-->
+
                 <a-menu slot="overlay" @click="doStage" :selectable="false">
                   <a-menu-item :key="'editStage_' + stage.code + '_' + index">
                     <a-icon type="edit"></a-icon>
@@ -285,26 +187,17 @@
                     <a-icon size="14" type="user"></a-icon>
                     设置本列所有任务执行者
                   </a-menu-item>
-                  <!--<a-menu-item :key="'setEndTime_' + stage.code + '_' + index">
-                                        <a-icon size="14" type="clock-circle"></a-icon>
-                                        设置本列所有任务截止时间 *
-                                    </a-menu-item>-->
+
                   <a-menu-item
                     :key="'recycleBatch_' + stage.code + '_' + index"
                   >
                     <a-icon size="14" type="delete"></a-icon>
                     本列所有任务移到回收站
                   </a-menu-item>
-                  <!-- <a-menu-item :key="'delStage_' + stage.code + '_' + index">
-                    <a-icon size="14" type="delete"></a-icon>
-                    删除列表
-                  </a-menu-item> -->
                 </a-menu>
-                <!--</div>-->
               </a-dropdown>
             </div>
           </header>
-          <!--</a-tooltip>-->
           <div
             class="scrum-stage-wrap ui-sortable"
             :class="{ 'hidden-creator-bottom': stage.showTaskCard }"
@@ -366,9 +259,6 @@
                               :style="{ fontSize: '16px' }"
                             />
                           </div>
-                          <!--<a class="check-box"
-                                                       :class="{'disabled': task.hasUnDone}"
-                                                       @click.stop="taskDone(task.code,index,taskIndex,1)"></a>-->
                         </a-tooltip>
                         <div class="task-content-set open-detail">
                           <div class="task-content-wrapper">
@@ -655,33 +545,6 @@
           </div>
           <!--</a-spin>-->
         </div>
-
-        <!-- 隐藏：新建任务列表 -->
-        <!-- <div class="scrum-stage undraggable create-stage">
-                    <header class="scrum-stage-header">
-                        <div class="stage-name hinted" style="width: 100%">
-                            <a class="muted" v-show="!showCreateStage" @click="showInputStrageName">
-                                <a-icon type="plus"/>
-                                <span class="m-l-xs">新建任务列表</span>
-                            </a>
-                            <div v-show="showCreateStage">
-                                <div>
-                                    <a-input ref="inputStageName" v-model="stageName" placeholder="新建任务列表..."
-                                             @keyup.enter="creteStage"
-                                             auto-focus></a-input>
-                                </div>
-                                <div class="submit-set create-stage-footer">
-                                    <a type="text" class="cancel-text muted"
-                                       @click="showCreateStage = !showCreateStage">
-                                        取消
-                                    </a>
-                                    <a-button type="primary" class="middle-btn" @click="creteStage">保存</a-button>
-                                </div>
-                            </div>
-                        </div>
-                    </header>
-                </div> -->
-        <!-- </draggable> -->
       </div>
       <router-view></router-view>
     </wrapper-content>
@@ -931,50 +794,6 @@
               查看回收站
             </a>
           </li>
-          <!-- <li class="menu-item">
-            <a :href="downLoadUrl" target="_blank">
-              <a-icon type="copy" />
-              下载导入任务模板
-            </a>
-          </li>
-          <li class="menu-item">
-            <a-upload
-              name="file"
-              :showUploadList="false"
-              :action="uploadAction"
-              :beforeUpload="beforeUpload"
-              :data="{ projectCode: code }"
-              :headers="headers"
-              @change="handleChange"
-            >
-              <a
-                class="text-default"
-                :loading="uploadLoading"
-                :disabled="uploadLoading"
-              >
-                <a-icon type="upload" v-show="!uploadLoading" />
-                上传文件导入任务
-              </a>
-            </a-upload>
-          </li>
-          <li class="menu-item">
-            <a>
-              <a-icon type="logout" />
-              导出任务 *
-            </a>
-          </li>
-          <li class="menu-item">
-            <a>
-              <a-icon type="copy" />
-              复制项目 *
-            </a>
-          </li>
-          <li class="menu-item">
-            <a>
-              <a-icon type="block" />
-              保存为项目模板 *
-            </a>
-          </li> -->
         </ul>
       </div>
     </a-drawer>
@@ -1422,24 +1241,7 @@ export default {
       this.task.stage_code = stageCode;
       this.task.project_code = this.code;
       this.task.assign_to = this.defaultExecutor.code;
-      //判断换行，添加多条任务
-      // let titles = this.task.name.split("\n");
-      // if (titles.length > 1) {
-      //     this.$confirm({
-      //         title: '任务提示',
-      //         content: `系统检测到你输入了 ${titles.length} 行内容，你是想创建多条任务吗？`,
-      //         okText: '创建1条',
-      //         cancelText: `创建${titles.length}条`,
-      //         onCancel() {
-      //             console.log('Cancel');
-      //         },
-      //         onOk() {
-      //             this.confirmCreateTask(stageIndex);
-      //             return Promise.resolve();
-      //         }
-      //     });
-      //     return false;
-      // }
+
       this.confirmCreateTask(stageIndex);
     },
     //添加任务

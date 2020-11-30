@@ -44,9 +44,9 @@
             <a-avatar slot="avatar" icon="user" :src="item.cover" />
           </a-list-item-meta>
           <div class="other-info muted">
-            <div class="info-item">
+            <div v-if="item.deleted_time" class="info-item">
               <span>移动日期</span>
-              <span>{{ moment(item.deleted_time).format("YYYY-MM-DD") }}</span>
+              <span>{{ item.deleted_time | formatToDate }}</span>
             </div>
           </div>
         </a-list-item>

@@ -1,36 +1,6 @@
 <template>
   <div class="project-list-index">
     <wrapper-content :showHeader="false">
-      <!--  <div class="page-search">
-                  <a-form
-                          layout="inline"
-                          :autoFormCreate="(form)=>{this.searchForm = form}"
-                          @submit.prevent="handleSearchSubmit"
-                  >
-                      <a-form-item
-                              label='名称'
-                              fieldDecoratorId="name"
-                      >
-                          <a-input placeholder='请输入'/>
-                      </a-form-item>
-                      <a-form-item
-                              label='创建日期'
-                              fieldDecoratorId="date"
-                      >
-                          <a-range-picker :placeholder="['开始日期','结束日期']"></a-range-picker>
-                      </a-form-item>
-                      <a-form-item
-                      >
-                          <a-button icon="search" type="primary" htmlType='submit'
-                                    :loading="actionInfo.confirmLoading"
-                          >搜索
-                          </a-button>
-                      </a-form-item>
-                  </a-form>
-              </div>-->
-      <!--  <div class="action">
-                <a-button type="primary" icon="plus" @click="doAction(null,'new')">创建新项目</a-button>
-            </div>-->
       <a-tabs v-model="selectBy" @change="selectChange" :animated="false">
         <a-tab-pane key="all" tab="全部项目"></a-tab-pane>
         <a-tab-pane key="my" tab="我负责的"></a-tab-pane>
@@ -126,15 +96,6 @@
                   item.belongDepartment && item.belongDepartment.name
                 }}</span>
               </div>
-
-              <!-- <div class="info-item">
-                <span>创建人</span>
-                <span>{{ item.owner_name }}</span>
-              </div> -->
-              <!-- <div class="info-item schedule">
-                <span>进度</span>
-                <a-progress :strokeWidth="5" :percent="item.schedule" />
-              </div> -->
             </div>
           </div>
           <!-- <template v-if="selectBy === 'my' || selectBy === 'collect'"> -->

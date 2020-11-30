@@ -70,30 +70,10 @@
               概览</a
             >
           </li>
-          <!-- <li class=""><a class="app" data-app="build"
-                                    @click="$router.push('/project/space/features/' + code)">
-                        版本</a>
-                    </li> -->
         </ul>
       </section>
     </div>
     <wrapper-content :showHeader="false">
-      <!-- <div class="overview-item m-b">
-        <div class="content-item">
-          <h3 class="m-sm m-b text-center">任务燃尽图</h3>
-          <a-spin :spinning="burnoutMap.loading">
-            <ve-line
-              v-if="!burnoutMap.loading"
-              :data="burnoutMap.chartData"
-              :settings="burnoutMap.chartSettings"
-              :extend="burnoutMap.chartExtend"
-              :series="burnoutMap.series"
-              :legend-visible="false"
-              height="200px"
-            ></ve-line>
-          </a-spin>
-        </div>
-      </div> -->
       <div class="overview-item">
         <div class="content-left">
           <div class="content-item log-list">
