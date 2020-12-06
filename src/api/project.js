@@ -3,6 +3,12 @@ import $http from "@/assets/js/http";
 export function list(data) {
   return $http.post("project/project", data);
 }
+
+// 项目统计
+export function statistic(data) {
+  return $http.post("project/project/statistic", data);
+}
+
 export function selfList(data) {
   return $http.post("project/project/selfList", data);
 }

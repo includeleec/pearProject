@@ -307,9 +307,9 @@ export default {
         this.loginBtn = false;
         this.$router.addRoutes(routes);
         let redirect =
-          this.$route.query.redirect || config.HOME_PAGE + "/" + org.code;
+          this.$route.query.redirect || config.HOME_PAGE;
         if (redirect == config.HOME_PAGE) {
-          redirect = config.HOME_PAGE + "/" + org.code;
+          redirect = config.HOME_PAGE;
         }
         console.log("redirect");
         console.log(redirect);

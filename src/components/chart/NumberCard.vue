@@ -1,5 +1,5 @@
 <template>
-  <a-card :loading="loading" :body-style="{ padding: '20px 24px 8px' }" :bordered="false">
+  <a-card :loading="loading" :body-style="{ padding: '20px 24px' }" :bordered="false">
     <div class="chart-card-header">
       <div class="meta">
         <span class="chart-card-title">{{ title }}</span>
@@ -9,16 +9,6 @@
       </div>
       <div class="total"><span>{{ total }}</span></div>
     </div>
-    <div class="chart-card-content">
-      <div class="content-fix">
-        <slot></slot>
-      </div>
-    </div>
-    <!-- <div class="chart-card-footer">
-      <div class="field">
-        <slot name="footer"></slot>
-      </div>
-    </div> -->
   </a-card>
 </template>
 
@@ -65,22 +55,6 @@
     right: 0;
   }
 
-  .chart-card-footer {
-    border-top: 1px solid #e8e8e8;
-    padding-top: 9px;
-    margin-top: 8px;
-
-    > * {
-      position: relative;
-    }
-
-    .field {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin: 0;
-    }
-  }
 
   .chart-card-content {
     margin-bottom: 12px;

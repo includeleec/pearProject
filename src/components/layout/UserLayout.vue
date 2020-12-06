@@ -18,7 +18,7 @@
 
             <div class="footer">
                 <div class="copyright">
-                    Copyright &copy; 2019 Pear Project
+                    Copyright &copy; 2020
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
             desc: {
                 type: [String],
                 default() {
-                    return '欢迎使用Pear Project项目管理系统';
+                    return '欢迎使用智能电网二次规划设计项目管理工具';
                 }
             }
         }
