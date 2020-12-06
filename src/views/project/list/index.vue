@@ -18,7 +18,7 @@
       <!-- 部门筛选, only show in '全部项目' -->
       <div class="select-dept-group">
         <div>
-          <label>部门:</label>
+          <label>负责部门:</label>
         </div>
         <div>
           <a-select
@@ -70,13 +70,14 @@
           <a-list-item-meta :description="item.description">
             <div slot="title">
               <router-link :to="'/project/space/task/' + item.code"
-                >{{ item.name }}
+                >
                 <!-- 当前阶段的状态 -->
                 <a-tag
                   v-if="item.current_stage && item.current_stage.delay"
                   :color="delayColor(item.current_stage.delay)"
                   >{{ item.current_stage.delay ? "滞后" : "" }}</a-tag
                 >
+                {{ item.name }}
               </router-link>
 
               <!-- 隐私状态 -->
