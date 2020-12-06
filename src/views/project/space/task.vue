@@ -44,14 +44,14 @@
             <span class="field">
               <a-dropdown :trigger="['click']">
                 <!-- 当前阶段,状态 -->
-                <span v-if="project.currentTaskStage">
-                  <a-tag :color="statusColor(project.currentTaskStage.status)">
+                <span v-if="project.current_stage">
+                  <a-tag :color="delayColor(project.current_stage.delay)">
                     当前阶段:
-                    {{ project.currentTaskStage.name }}
+                    {{ project.current_stage.name }}
 
                     <!-- 只有滞后时才会显示 text -->
-                    <span v-if="project.currentTaskStage.status == 2">
-                      ({{ project.currentTaskStage.status_text }})
+                    <span v-if="project.current_stage.delay">
+                      ({{ project.current_stage.delay ? '滞后' : '' }})
                     </span>
                   </a-tag>
                 </span>
@@ -126,8 +126,8 @@
               {{ stage.name }}
 
               <!-- 阶段状态 -->
-              <a-tag :color="statusColor(stage.status)">{{
-                stage.statusText
+              <a-tag v-if="stage.delay" :color="delayColor(stage.delay)">{{
+                stage.delay ? '滞后' : ''
               }}</a-tag>
             </div>
             <div class="stage-plan-time" v-if="stage.plan_date">
@@ -652,12 +652,14 @@
           />
         </a-form-item>
 
+        <!-- 
         <a-form-item label="阶段状态" has-feedback>
           <a-select v-decorator="['status']" placeholder="请选择状态">
             <a-select-option :value="1"> 正常 </a-select-option>
             <a-select-option :value="2"> 滞后 </a-select-option>
           </a-select>
         </a-form-item>
+        -->
 
         <a-form-item>
           <a-date-picker
@@ -1781,6 +1783,14 @@ export default {
         return statusInfo.color;
       }
       return "";
+    },
+
+    delayColor(delay) {
+      if(delay) {
+        return "#ed3f14";
+      } else {
+        return "green";
+      }
     },
 
     statusColor(status) {

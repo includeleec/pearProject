@@ -179,17 +179,16 @@
               <a-list-item-meta
                 @click="routerLink(`/project/space/task/${item.code}`)"
               >
-                <a-avatar slot="avatar" icon="user" :src="item.cover" />
+                <!-- <a-avatar slot="avatar" icon="user" :src="item.cover" /> -->
                 <div slot="title">
                   <span class="m-l-sm">{{ item.name }}</span>
                   <a-tag color="green" class="m-l" v-show="!item.private"
                     >公开</a-tag
                   >
                 </div>
-                <div slot="description">
+                <!-- <div slot="description">
                   <span class="m-l-sm">{{ item.description }}</span>
-                  <!--                                    <a-progress :strokeWidth="5" :percent="item.schedule"/>-->
-                </div>
+                </div> -->
               </a-list-item-meta>
             </a-list-item>
           </a-list>

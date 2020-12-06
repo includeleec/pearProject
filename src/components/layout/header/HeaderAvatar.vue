@@ -2,7 +2,7 @@
   <div v-if="userInfo">
     <a-dropdown class="action-item" placement="bottomRight">
       <div class="user-info">
-        <a-avatar :src="userInfo.avatar" alt="">{{ userInfo.name }}</a-avatar>
+        <a-avatar :src="userInfo.avatar" alt="">{{ userInfo.name && userInfo.name[0] }}</a-avatar>
         <span>{{ userInfo.name }}</span>
       </div>
       <a-menu

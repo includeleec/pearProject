@@ -364,16 +364,16 @@ export default {
         const organizationList = res.data.organizationList;
         await app.$store.dispatch("SET_LOGGED", obj);
         await app.$store.dispatch("setOrganizationList", organizationList);
-        if (!currentOrganization) {
-          currentOrganization = organizationList[0];
-        } else {
-          const has = organizationList.findIndex(
-            (item) => item.id == currentOrganization.id
-          );
-          if (has === -1) {
-            currentOrganization = organizationList[0];
-          }
-        }
+        // if (!currentOrganization) {
+        //   currentOrganization = organizationList[0];
+        // } else {
+        //   const has = organizationList.findIndex(
+        //     (item) => item.id == currentOrganization.id
+        //   );
+        //   if (has === -1) {
+        //     currentOrganization = organizationList[0];
+        //   }
+        // }
         await app.$store.dispatch(
           "setCurrentOrganization",
           currentOrganization

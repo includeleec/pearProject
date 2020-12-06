@@ -15,6 +15,38 @@
           >创建新项目</a-button
         >
       </a-tabs>
+      <!-- 部门筛选, only show in '全部项目' -->
+      <div class="select-dept-group">
+        <div>
+          <label>部门:</label>
+        </div>
+        <div>
+          <a-select
+            default-value="all"
+            style="width: 120px"
+            @change="handleChangeDepartment"
+          >
+            <a-select-option value="all"> 全部 </a-select-option>
+           <a-select-option v-for="d in departmentList" :key="d.id">
+              {{ d.name }}
+            </a-select-option>
+          </a-select>
+        </div>
+      </div>
+
+      <div class="data-static">
+        <div class="project-total">
+            <label>项目数量:</label>
+            <span>{{projectTotal}}</span>
+        </div>
+
+        <div class="project-total">
+            <label>滞后项目数量:</label>
+            <span>{{projectDelayTotal}}</span>
+        </div>
+
+      </div>
+
       <a-list
         class="project-list"
         :loading="loading"
@@ -41,12 +73,9 @@
                 >{{ item.name }}
                 <!-- 当前阶段的状态 -->
                 <a-tag
-                  v-if="
-                    item.current_task_stage &&
-                    item.current_task_stage.status === 2
-                  "
-                  :color="statusColor(item.current_task_stage.status)"
-                  >{{ item.current_task_stage.status_text }}</a-tag
+                  v-if="item.current_stage && item.current_stage.delay"
+                  :color="delayColor(item.current_stage.delay)"
+                  >{{ item.current_stage.delay ? "滞后" : "" }}</a-tag
                 >
               </router-link>
 
@@ -66,22 +95,22 @@
 
               <div class="info-item">
                 <span>当前阶段</span>
-                <span v-if="item.current_task_stage"
-                  >{{ item.current_task_stage.name }}
+                <span v-if="item.current_stage"
+                  >{{ item.current_stage.name }}
                 </span>
               </div>
 
               <div class="info-item">
                 <span>阶段计划时间</span>
-                <span v-if="item.currentTaskStage"
-                  >{{ item.currentTaskStage.plan_date | formatToDate }}
+                <span v-if="item.current_stage"
+                  >{{ item.current_stage.plan_date | formatToDate }}
                 </span>
               </div>
 
               <div class="info-item">
                 <span>实际执行时间</span>
-                <span v-if="item.currentTaskStage"
-                  >{{ item.currentTaskStage.execute_date | formatToDate }}
+                <span v-if="item.current_stage"
+                  >{{ item.current_stage.execute_date | formatToDate }}
                 </span>
               </div>
 
@@ -233,15 +262,16 @@
   </div>
 </template>
 <script>
-import inviteProjectMember from "../../../components/project/inviteProjectMember";
+import inviteProjectMember from "@/components/project/inviteProjectMember";
 import projectConfig from "@/components/project/projectConfig";
 import { list, doData, recycle } from "@/api/project";
 import { checkResponse } from "@/assets/js/utils";
 import pagination from "@/mixins/pagination";
 import moment from "moment";
-import { collect } from "../../../api/projectCollect";
-import { list as projectTemplates } from "../../../api/projectTemplate";
-import { recovery, recoveryArchive } from "../../../api/project";
+import { collect } from "@/api/projectCollect";
+import { list as projectTemplates } from "@/api/projectTemplate";
+import { recovery, recoveryArchive } from "@/api/project";
+import { list as getDepartments } from "@/api/department";
 
 export default {
   components: {
@@ -276,6 +306,10 @@ export default {
         modalTitle: "项目设置",
       },
       templateList: [],
+      departmentList: [],
+      selectDepartmentId:"all",
+      projectTotal: 0,
+      projectDelayTotal: 0,
     };
   },
   watch: {
@@ -287,6 +321,7 @@ export default {
   created() {
     this.init();
     this.projectTemplates();
+    this.getDepartment();
   },
   methods: {
     moment,
@@ -299,15 +334,22 @@ export default {
         this.showLoadingMore = false;
       }
       this.requestData.selectBy = this.selectBy;
+      this.requestData.departmentId = this.selectDepartmentId;
+
       app.loading = true;
+      // get all project list
       list(app.requestData).then((res) => {
         app.dataSource = app.dataSource.concat(res.data.list);
+
+        app.projectTotal = res.data.total;
+        app.projectDelayTotal = res.data.delay_total;
         app.pagination.total = res.data.total;
         app.showLoadingMore = app.pagination.total > app.dataSource.length;
         app.loading = false;
         app.loadingMore = false;
       });
     },
+
     projectTemplates() {
       projectTemplates({ pageSize: 100, viewType: -1 }).then((res) => {
         this.templateList = res.data.list;
@@ -446,6 +488,14 @@ export default {
       this.init();
     },
 
+    delayColor(delay) {
+      if (delay) {
+        return "#ed3f14";
+      } else {
+        return "green";
+      }
+    },
+
     statusColor(status) {
       switch (status) {
         case 1:
@@ -456,6 +506,24 @@ export default {
           return "green";
       }
     },
+
+    getDepartment() {
+      this.departmentLoading = true;
+      
+      getDepartments({ page: 1, pageSize: 100 }).then((res) => {
+        if (res.data.list) {
+          this.departmentList = res.data.list;
+        }
+        this.departmentLoading = false;
+      });
+    },
+
+    handleChangeDepartment(value) {
+      console.log("handleChangeDepartment", value);
+      this.selectDepartmentId = value;
+      this.init();
+    }
+
   },
 };
 </script>
@@ -463,6 +531,34 @@ export default {
 @import "~ant-design-vue/lib/style/themes/default";
 
 .project-list-index {
+
+  .select-dept-group {
+    div {
+      display: inline-block;
+      label {
+        margin-right: 6px;
+      }
+    }
+  }
+
+  .data-static {
+    display: flex;
+    margin-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+    &>div {
+      margin-right: 16px;
+      label {
+        margin-right: 6px;
+      }
+      span {
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  }
+
+
   .project-list {
     .ant-list-item-meta-avatar {
       .ant-avatar {
