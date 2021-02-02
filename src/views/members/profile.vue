@@ -19,12 +19,6 @@
       <div class="member-info">
         <template v-if="member">
           <div class="base">
-            <a-avatar
-              size="large"
-              class="m-r"
-              icon="user"
-              :src="member.avatar"
-            ></a-avatar>
             <div class="title">{{ member.name }}</div>
           </div>
           <!--<div class="mail muted">
@@ -52,7 +46,11 @@
         <a-tab-pane class="info-content base-info" tab="详细资料" key="1">
           <p class="action-wrapper">
             <span class="title">详细资料</span>
-            <a class="muted" @click="showEditBaseInfo">
+            <a
+              v-if="userInfo.id === member.id"
+              class="muted"
+              @click="showEditBaseInfo"
+            >
               <a-icon type="edit" />
               编辑</a
             >
@@ -224,13 +222,7 @@
               <a-input
                 placeholder="输入电子邮箱地址"
                 size="large"
-                v-decorator="[
-                  'email',
-                  {
-                    rules: [{ required: true, message: '请填写电子邮箱地址' }],
-                    validateTrigger: 'blur',
-                  },
-                ]"
+                v-decorator="['email']"
               />
             </a-form-item>
           </a-col>
@@ -308,6 +300,7 @@ import { editAccount, read, syncDetail } from "../../api/user";
 import { selfList } from "../../api/task";
 import { selfList as getProjectList } from "../../api/project";
 import { formatTaskTime } from "../../assets/js/dateTime";
+import { mapState } from "vuex";
 
 export default {
   name: "memberProfile",
@@ -345,7 +338,11 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      userInfo: (state) => state.userInfo,
+    }),
+  },
   watch: {},
   created() {
     this.init();
@@ -477,7 +474,7 @@ export default {
   }
 
   .header {
-    background: #FFF;
+    background: #fff;
     width: 100%;
     padding: 18px;
 
@@ -489,13 +486,17 @@ export default {
       .base {
         display: flex;
         align-items: center;
+
+        .title {
+          font-size: 20px;
+        }
       }
     }
   }
 
   .actions {
     .ant-tabs-nav-container {
-      background: #FFF;
+      background: #fff;
       padding: 12px 18px 0;
     }
 
@@ -506,13 +507,13 @@ export default {
         padding: 6px 0;
 
         .title {
-          font-size: 16px;
+          font-size: 20px;
         }
       }
 
       .content-wrapper {
         padding: 0 36px;
-        background: #FFF;
+        background: #fff;
 
         &.list {
           padding: 4px 0;

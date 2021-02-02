@@ -19,7 +19,7 @@
             :style="{ lineHeight: '63px', paddingLeft: '15px' }"
           >
             <a-menu-item
-              v-for="(model, index) in menu"
+              v-for="(model) in menu.filter(m => m.pid === 0 && (m.show_slider > 0 || m.is_inner > 0))"
               :key="model.id.toString()"
               :disabled="!model.status"
             >
@@ -132,7 +132,7 @@
           </a-layout>
         </a-layout>
       </a-layout>
-      <Socket ref="socket" v-if="config.WS_URI"></Socket>
+      <!-- <Socket ref="socket" v-if="config.WS_URI"></Socket> -->
     </a-spin>
     <v-uploader></v-uploader>
   </div>

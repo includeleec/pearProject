@@ -76,7 +76,46 @@
     <wrapper-content :showHeader="false">
       <div class="overview-item">
         <div class="content-left">
-          <div class="content-item log-list">
+
+         <div class="content-item log-list">
+            <div class="title">
+              项目信息
+            </div>
+            <div class="list-content">
+              <a-list>
+                <a-list-item>
+                  <a-list-item-meta
+                  description=""
+                  >
+                  <div slot="title"></div>
+                  </a-list-item-meta>
+                </a-list-item>
+                <!-- <a-list-item
+                  :key="index"
+                  v-for="(item, index) in projectInfoList"
+                >
+                  <a-list-item-meta>
+                    <div slot="title">
+                      <a-tooltip :mouseEnterDelay="0.5">
+                        <template slot="title">
+                          <span>{{
+                            item.description ? item.description : "暂无描述"
+                          }}</span>
+                        </template>
+                        <span>{{ item.name }} </span>
+                      </a-tooltip>
+                    </div>
+                    <div slot="description">
+                      {{ item.value }}
+                    </div>
+                  </a-list-item-meta>
+                </a-list-item> -->
+              </a-list>
+            </div>
+          </div>
+
+
+          <!-- <div class="content-item log-list">
             <div class="title">
               项目信息
               <a-tooltip :mouseEnterDelay="0.5">
@@ -104,8 +143,6 @@
                         </template>
                         <span>{{ item.name }} </span>
                       </a-tooltip>
-                      <!--                                            <span class="right-item muted"> {{ formatTime(item.create_time) }}-->
-                      <!--                                        </span>-->
                     </div>
                     <div slot="description">
                       {{ item.value }}
@@ -124,7 +161,9 @@
                 </a-list-item>
               </a-list>
             </div>
-          </div>
+          </div> -->
+
+          
           <div class="content-item log-list">
             <div class="title">项目动态</div>
             <div class="list-content">
@@ -184,21 +223,21 @@
                 <a-list>
                   <a-list-item :key="index" v-for="(item, index) in [project]">
                     <a-list-item-meta>
-                      <a-avatar slot="avatar" :src="item.cover" />
+                      <!-- <a-avatar slot="avatar" :src="item.cover" /> -->
                       <div slot="title">
                         <span>{{ item.name }}</span>
                       </div>
-                      <div slot="description">
+                      <!-- <div slot="description">
                         {{ item.owner_name }} 创建于
                         {{ moment(item.create_time).format("YYYY年MM月DD日") }}
-                      </div>
+                      </div> -->
                     </a-list-item-meta>
                   </a-list-item>
                 </a-list>
               </div>
             </div>
-            <p class="">{{ project.description }}</p>
-            <div class="project-date m-b-lg m-t-lg">
+            <!-- <p class="">{{ project.description }}</p> -->
+            <!-- <div class="project-date m-b-lg m-t-lg">
               <div class="muted m-b-xs">
                 <a-tag color="green">项目周期</a-tag>
               </div>
@@ -207,7 +246,7 @@
                 format="YYYY年MM月DD日"
                 @change="ondateChange"
               />
-            </div>
+            </div> -->
             <div class="project-stats m-b-lg">
               <div class="muted m-b-xs">
                 <a-tag color="green">项目统计</a-tag>

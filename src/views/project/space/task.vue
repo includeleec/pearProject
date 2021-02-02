@@ -384,10 +384,7 @@
                       <div class="handler-wrap">
                         <a-dropdown :trigger="['click']">
                           <a class="executor-handler"
-                            ><img
-                              :src="defaultExecutor.avatar"
-                              class="avatar img-circle img-24 hinted"
-                            />
+                            >
                             <span class="creator-handler-text name">{{
                               defaultExecutor.name
                             }}</span></a

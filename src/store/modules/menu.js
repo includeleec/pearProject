@@ -1,5 +1,7 @@
 import {getMenuForUser} from "@/api/menu";
 import {getStore, setStore} from '@/assets/js/storage';
+import {basic_menus} from "../../config/menu";
+
 
 const common = {
     state: {
@@ -20,6 +22,9 @@ const common = {
                 setStore('menu', res.data);
                 commit('SET_MENU', res.data);
             });
+
+            // setStore('menu', basic_menus);
+            // commit('SET_MENU', basic_menus);
         },
         SET_MENU({commit},data) {
             setStore('menu', data);

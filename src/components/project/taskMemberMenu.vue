@@ -40,7 +40,9 @@
                      </span>
                                 <a-list-item-meta>
                                     <span slot="title">{{item.name}}</span>
-                                    <a-avatar slot="avatar" icon="user" :src="item.avatar"/>
+                                    <!-- <a-avatar slot="avatar" icon="user" :src="item.avatar"/> -->
+                                    <a-avatar  slot="avatar" >{{item.name[0]}} </a-avatar>
+
                                 </a-list-item-meta>
                             </a-list-item>
                         </a-list>

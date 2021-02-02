@@ -287,7 +287,7 @@ export default {
         }
       });
     },
-    loginSuccess(res, org) {
+    loginSuccess(res) {
       const menu = getStore("menu", true);
       if (menu) {
         let routes = this.$router.options.routes;
@@ -360,10 +360,10 @@ export default {
           userInfo: res.data.member,
           tokenList: res.data.tokenList,
         };
-        let currentOrganization = getStore("currentOrganization", true);
-        const organizationList = res.data.organizationList;
+        // let currentOrganization = getStore("currentOrganization", true);
+        // const organizationList = res.data.organizationList;
         await app.$store.dispatch("SET_LOGGED", obj);
-        await app.$store.dispatch("setOrganizationList", organizationList);
+        // await app.$store.dispatch("setOrganizationList", organizationList);
         // if (!currentOrganization) {
         //   currentOrganization = organizationList[0];
         // } else {
@@ -374,12 +374,13 @@ export default {
         //     currentOrganization = organizationList[0];
         //   }
         // }
-        await app.$store.dispatch(
-          "setCurrentOrganization",
-          currentOrganization
-        );
+        // await app.$store.dispatch(
+        //   "setCurrentOrganization",
+        //   currentOrganization
+        // );
         await app.$store.dispatch("GET_MENU").then(() => {
-          app.loginSuccess(res, currentOrganization);
+          // app.loginSuccess(res, currentOrganization);
+          app.loginSuccess(res);
         });
       } else {
         app.oauthLoading = false;

@@ -81,7 +81,7 @@
                          批量更新成员信息*
                      </a>-->
 
-          <a-dropdown :trigger="['click']" placement="bottomCenter">
+          <!-- <a-dropdown :trigger="['click']" placement="bottomCenter">
             <a
               class="ant-dropdown-link"
               href="javascript:;"
@@ -90,41 +90,7 @@
               <a-icon type="user-add" />
               添加成员
             </a>
-            <!-- <a-menu slot="overlay">
-              <a-menu-item>
-                <a href="javascript:;" @click="showInviteMember = true">
-                  <a-icon type="user-add" />
-                  通过邮箱邀请
-                </a>
-              </a-menu-item>
-              <a-menu-divider />
-              <a-menu-item>
-                <a :href="downLoadUrl" target="_blank" class="m-l">
-                  <a-icon type="copy" />
-                  下载批量导入成员模板
-                </a>
-              </a-menu-item>
-              <a-menu-item>
-                <a-upload
-                  name="file"
-                  :showUploadList="false"
-                  :action="uploadAction"
-                  :beforeUpload="beforeUpload"
-                  :headers="headers"
-                  @change="handleChange"
-                >
-                  <a
-                    class="text-default"
-                    :loading="uploadLoading"
-                    :disabled="uploadLoading"
-                  >
-                    <a-icon type="upload" v-show="!uploadLoading" />
-                    上传文件批量导入成员
-                  </a>
-                </a-upload>
-              </a-menu-item>
-            </a-menu> -->
-          </a-dropdown>
+          </a-dropdown> -->
           <template v-if="currentDepartmentCode">
             <!-- <a-dropdown
               :trigger="['click']"
@@ -185,7 +151,6 @@
             </div>
             <a-list-item :key="index" v-for="(item, index) in members">
               <a-list-item-meta>
-                <a-avatar slot="avatar" :src="item.avatar" />
                 <div slot="title">
                   <router-link
                     :to="`/members/profile/${item.id}`"
@@ -233,7 +198,7 @@
                     <a-icon type="stop" />
                   </a-tooltip>
                 </a> -->
-                <a
+                <!-- <a
                   v-if="!selectAllMembers"
                   class="muted"
                   slot="actions"
@@ -242,7 +207,7 @@
                   <a-tooltip :title="`从${actionTitle}内移除`">
                     <a-icon type="user-delete" />
                   </a-tooltip>
-                </a>
+                </a> -->
               </template>
             </a-list-item>
           </a-list>
@@ -275,6 +240,7 @@ import { notice } from "../../assets/js/notice";
 import { removeMember } from "../../api/departmentMember";
 import { del as deleteDepartment } from "../../api/department";
 import { getStore } from "../../assets/js/storage";
+import { mapState } from "vuex";
 
 export default {
   name: "members",
@@ -314,6 +280,9 @@ export default {
     };
   },
   computed: {
+     ...mapState({
+      userInfo: (state) => state.userInfo,
+    }),
     actionTitle() {
       return this.currentDepartmentCode ? "部门" : "组织";
     },

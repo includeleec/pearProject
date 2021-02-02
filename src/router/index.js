@@ -9,10 +9,10 @@ import config from "../config/config";
 import {refreshAccessToken} from "../api/common/common";
 
 let HOME_PAGE = config.HOME_PAGE;
-const currentOrganization = getStore('currentOrganization', true);
-if (currentOrganization) {
-    HOME_PAGE = HOME_PAGE + '/' + currentOrganization.code;
-}
+// const currentOrganization = getStore('currentOrganization', true);
+// if (currentOrganization) {
+//     HOME_PAGE = HOME_PAGE + '/' + currentOrganization.code;
+// }
 
 Vue.use(Router);
 const routes = [].concat(
@@ -22,6 +22,7 @@ const routes = [].concat(
 //     routes: routers
 // });
 const menu = getStore('menu', true);
+
 if (menu) {
     menu.forEach(function (v) {
         routes.push(createRoute(v));
@@ -116,7 +117,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log(to);
+    console.log("router.beforeEach", {to});
     let tokenList = getStore('tokenList', true);
     if (tokenList) {
         let refreshToken = tokenList.refreshToken;
@@ -134,6 +135,8 @@ router.beforeEach((to, from, next) => {
             }));
         }
     }
+
+
     //页面中转
     if (to.name === 'index' || to.path === '/index' || to.path === '/') {
         next({path: HOME_PAGE});

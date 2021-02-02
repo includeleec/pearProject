@@ -266,10 +266,10 @@
                             <div class="field-flex">
                               <template v-if="task.executor">
                                 <a-avatar
-                                  :src="task.executor.avatar"
-                                  icon="user"
                                   size="small"
-                                />
+                                >
+                                {{ task.executor.name[0] }}
+                                </a-avatar>
                                 <a class="muted name">{{
                                   task.executor.name
                                 }}</a>
@@ -1110,7 +1110,7 @@
                     @click="
                       routerLink(
                         '/members/profile/' +
-                          member.membar_account_code +
+                          member.id +
                           '?key=3'
                       )
                     "

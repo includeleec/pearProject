@@ -1,5 +1,6 @@
 import $http from '@/assets/js/http'
 
+
 export function getMenuForUser() {
     return $http.post('project/index');
 }
